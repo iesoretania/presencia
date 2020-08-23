@@ -1,0 +1,12 @@
+nelmio_alice:
+    locale: 'es_ES' # Default locale for the Faker Generator
+    seed: 1 # Value used to make sure Faker generates data consistently across
+            # runs, set to null to disable.
+    functions_blacklist:
+        - 'current'
+        - 'shuffle'
+        - 'date'
+        - 'time'
+        - 'file'
+        - 'md5'
+        - 'sha1'
