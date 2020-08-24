@@ -1,7 +1,7 @@
 App\Entity\Worker:
     worker_{1..10}:
         firstName: <firstname()>
-        lastName: <lastname()>
+        lastName: "<lastname()> <lastname()>"
         enabled: true
 
 App\Entity\Presence\AccessCode:

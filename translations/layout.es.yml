@@ -1,0 +1,6 @@
+title.welcome: ¡Bienvenido!
+hint.close: Cerrar
+
+user.logged.as: "Conectado como %user%"
+user.logout: Desconectar
+user.exit_impersonation: Volver al usuario normal

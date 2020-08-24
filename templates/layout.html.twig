@@ -1,0 +1,56 @@
+{% trans_default_domain 'layout' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if title is defined and title is not empty %}
+        {{ title }} -
+    {% endif %}
+    {{ app_name }}
+{%- endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
+        <a class="navbar-brand" href="{{ path('frontpage') }}">{{ app_name }}</a>
+        {% if false %} {# app.user #}
+        <span class="nav-text ml-auto mr-0 text-light">
+            {{ 'user.logged.as'|trans({'%user%': app.user}, 'layout') }}
+        </span>
+        <ul class="navbar-nav">
+            {% if false %} {# is_granted('ROLE_PREVIOUS_ADMIN') #}
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <i class="fas fa-user-slash"></i>
+                        {{ 'user.exit_impersonation'|trans({}, 'layout') }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href=""><i class="fas fa-power-off"></i> {{ 'user.logout'|trans({}, 'layout') }}</a>
+                </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+
+    <div class="container-fluid">
+    <div class="row">
+
+        <main role="main" class="col-md-10 ml-sm-auto pt-3 px-4">
+            {% include 'layout/partial_flash.html.twig' %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<div class="container">
+</div>
+<footer class="footer no-print" role="contentinfo">
+    <div class="container">
+        {% block footer %}
+            <p class="text-muted">
+                &copy; 2020{% if 'now'|date('Y')>2020 %}-{{ 'now'|date('Y') }}{% endif %}, Luis Ramón López López
+            </p>
+        {% endblock %}
+    </div>
+</footer>
+{% endblock %}

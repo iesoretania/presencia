@@ -1,0 +1,39 @@
+{
+  "name": "presencia-ies",
+  "version": "1.0.0",
+  "description": "Aplicación web para el control de presencia en centros educativos",
+  "scripts": {
+    "test": "phpunit -c app/"
+  },
+  "author": "Luis Ramón López López",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iesoretania/presencia-ies.git"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@symfony/webpack-encore": "^0.30.2",
+    "autoprefixer": "^9.8.6",
+    "bootstrap": "^4.5.2",
+    "bootswatch": "^4.5.2",
+    "jquery": "^3.5.1",
+    "node-sass": "^4.14.1",
+    "popper.js": "^1.16.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "select2": "^4.0.13",
+    "select2-theme-bootstrap4": "^1.0.0",
+    "webpack-notifier": "^1.8.0"
+  },
+  "browserslist": [
+    "Android 2.3",
+    "Android >= 4",
+    "Chrome >= 20",
+    "Firefox >= 3.6",
+    "Explorer >= 8",
+    "iOS >= 6",
+    "Opera >= 12",
+    "Safari >= 6"
+  ]
+}
