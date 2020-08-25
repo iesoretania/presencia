@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        {% for datum in data %}
+            {% set class = "none" %}
+            {% if datum[1] %}
+                {% set class = datum[1].data %}
+            {% endif %}
+            <div class="col-4">
+                <span class="dot dot-{{ class }}"></span>
+                {{ datum[0].lastName }}, {{ datum[0].firstName }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

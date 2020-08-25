@@ -235,3 +235,22 @@ input#manual_code_code {
 .code-flash {
     font-size: 2em;
 }
+
+.dot {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-none {
+    background-color: #bbb;
+}
+
+.dot-in {
+    background-color: #0b0;
+}
+
+.dot-out {
+    background-color: #b00;
+}

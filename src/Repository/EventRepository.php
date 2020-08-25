@@ -66,4 +66,37 @@ class EventRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($event);
         $this->getEntityManager()->flush();
     }
+
+    public function listWorkersWithLastEventByData(array $data)
+    {
+        $today = new \DateTime();
+        $today->setTime(0, 0, 0, 0);
+
+        $result = $this->getEntityManager()->createQueryBuilder()
+            ->addSelect('w')
+            ->addSelect('e1')
+            ->from(Worker::class, 'w')
+            ->leftJoin(
+                Event::class,
+                'e1',
+                'WITH',
+                'e1.worker = w AND e1.timestamp >= :today AND e1.data IN (:data)'
+            )
+            ->leftJoin(
+                Event::class,
+                'e2',
+                'WITH',
+                'e2.worker = e1.worker AND e1.timestamp < e2.timestamp AND ' .
+                'e2.timestamp >= :today AND e2.data IN (:data)'
+            )
+            ->andWhere('e2 IS NULL AND w IS NOT NULL')
+            ->setParameter('today', $today)
+            ->setParameter('data', $data)
+            ->orderBy('w.lastName', 'ASC')
+            ->addOrderBy('w.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return array_chunk($result, 2);
+    }
 }
