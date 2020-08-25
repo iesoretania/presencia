@@ -1,10 +1,10 @@
 App\Entity\Worker:
-    worker_{1..10}:
+    worker_{1..60}:
         firstName: <firstname()>
         lastName: "<lastname()> <lastname()>"
         enabled: true
 
 App\Entity\Presence\AccessCode:
-    code_{1..20}:
+    code_{1..120}:
         worker: "@worker*"
         code: <regexify('[A-F0-9]{14}')>

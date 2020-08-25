@@ -1,16 +1,54 @@
 {% extends 'layout.html.twig' %}
 
-{% block content %}
-    <div class="row">
-        {% for datum in data %}
-            {% set class = "none" %}
-            {% if datum[1] %}
-                {% set class = datum[1].data %}
-            {% endif %}
-            <div class="col-4">
-                <span class="dot dot-{{ class }}"></span>
-                {{ datum[0].lastName }}, {{ datum[0].firstName }}
+{% block container %}
+    <div class="container-fluid pt-3">
+        <div class="row">
+            <div class="col-12">
+                <p id="time"></p>
             </div>
-        {% endfor %}
+        </div>
+        <div class="row" id="state">
+            {% for datum in data %}
+                {% set class = "none" %}
+                {% if datum[1] %}
+                    {% set class = datum[1].data %}
+                {% endif %}
+                <div class="col-xl-2 col-md-3 col-sm-4 align-self-center">
+                    <span class="dot dot-{{ class }}"></span>
+                    {{ datum[0].lastName }}, {{ datum[0].firstName }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var timeDisplay = document.getElementById("time");
+
+        function refreshTime() {
+            timeDisplay.innerHTML = new Date().toLocaleString();
+        }
+
+        setInterval(refreshTime, 1000);
+        refreshTime();
+
+        var state = document.getElementById("state");
+
+        function refreshState() {
+            function reqListener () {
+                var parser = new DOMParser();
+                var responseDoc = parser.parseFromString (this.responseText, "text/html");
+                state.innerHTML = responseDoc.getElementById("state").innerHTML;
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", window.location.href);
+            oReq.send();
+        }
+
+        setInterval(refreshState, 5000);
+    </script>
 {% endblock %}
