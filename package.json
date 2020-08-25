@@ -9,7 +9,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iesoretania/presencia-ies.git"
+    "url": "https://github.com/iesoretania/presencia.git"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",

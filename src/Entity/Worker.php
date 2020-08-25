@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\WorkerRepository")
  * @ORM\Table(name="worker")
  */
 class Worker
@@ -35,6 +35,11 @@ class Worker
      * @var bool
      */
     private $enabled = true;
+
+    public function getFullName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     /**
      * @return int

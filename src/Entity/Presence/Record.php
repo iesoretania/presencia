@@ -6,7 +6,7 @@ use App\Entity\Worker;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\Presence\RecordRepository")
  * @ORM\Table(name="record")
  */
 class Record
@@ -33,7 +33,7 @@ class Record
     private $inTimestamp;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
     private $outTimestamp;
@@ -42,14 +42,14 @@ class Record
      * @ORM\Column(type="string")
      * @var string
      */
-    private $origin;
+    private $source;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Worker")
      * @ORM\JoinColumn(nullable=true)
      * @var Worker
      */
-    private $originWorker;
+    private $sourceWorker;
 
     /**
      * @return int
@@ -107,7 +107,7 @@ class Record
      * @param \DateTime $outTimestamp
      * @return Record
      */
-    public function setOutTimestamp(\DateTime $outTimestamp): Record
+    public function setOutTimestamp(\DateTime $outTimestamp = null): Record
     {
         $this->outTimestamp = $outTimestamp;
         return $this;
@@ -116,36 +116,36 @@ class Record
     /**
      * @return string
      */
-    public function getOrigin(): string
+    public function getSource(): string
     {
-        return $this->origin;
+        return $this->source;
     }
 
     /**
-     * @param string $origin
+     * @param string $source
      * @return Record
      */
-    public function setOrigin(string $origin): Record
+    public function setSource(string $source): Record
     {
-        $this->origin = $origin;
+        $this->source = $source;
         return $this;
     }
 
     /**
      * @return Worker
      */
-    public function getOriginWorker(): Worker
+    public function getSourceWorker(): Worker
     {
-        return $this->originWorker;
+        return $this->sourceWorker;
     }
 
     /**
-     * @param Worker $originWorker
+     * @param Worker $sourceWorker
      * @return Record
      */
-    public function setOriginWorker(Worker $originWorker): Record
+    public function setSourceWorker(Worker $sourceWorker = null): Record
     {
-        $this->originWorker = $originWorker;
+        $this->sourceWorker = $sourceWorker;
         return $this;
     }
 }

@@ -213,3 +213,25 @@ $light-warning: lighten($warning, 20%);
 .collapse-zone {
   cursor: pointer;
 }
+
+div.enter-code {
+    height: 85vh !important;
+
+    button {
+        font-size: 4em;
+    }
+}
+
+p#time {
+    font-size: 7em;
+    text-align: center;
+}
+
+input#manual_code_code {
+    font-size: 8em;
+    font-family: monospace;
+}
+
+.code-flash {
+    font-size: 2em;
+}

@@ -1,0 +1,64 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'access' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+    {% for flashMessage in app.session.flashbag.get('code') %}
+        <div class="code-flash">
+            {% if flashMessage.result == 'not_found' %}
+            <div class="alert alert-danger alert-dismissable auto-dismiss" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'hint.close'|trans({}, 'layout') }}"><span aria-hidden="true">&times;</span></button>
+                {{ 'alert.not_found'|trans }}
+            </div>
+            {% endif %}
+            {% if flashMessage.result == 'ignore' %}
+                <div class="alert alert-warning alert-dismissable auto-dismiss" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'hint.close'|trans({}, 'layout') }}"><span aria-hidden="true">&times;</span></button>
+                    {{ 'alert.ignore'|trans }}
+                </div>
+            {% endif %}
+            {% if flashMessage.result == 'in' %}
+                <div class="alert alert-info alert-dismissable auto-dismiss" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'hint.close'|trans({}, 'layout') }}"><span aria-hidden="true">&times;</span></button>
+                    {{ 'alert.in'|trans({'%worker%': flashMessage.worker.fullName}) }}
+                </div>
+            {% endif %}
+            {% if flashMessage.result == 'out' %}
+                <div class="alert alert-info alert-dismissable auto-dismiss" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'hint.close'|trans({}, 'layout') }}"><span aria-hidden="true">&times;</span></button>
+                    {{ 'alert.out'|trans({'%worker%': flashMessage.worker.fullName}) }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="row enter-code">
+        <div class="col-sm-12 my-auto">
+        <p id="time"></p>
+        {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary btn-block">{{ 'form.submit_code'|trans }}</button>
+        {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var timeDisplay = document.getElementById("time");
+
+        function refreshTime() {
+            var dateString = new Date().toLocaleString();
+            timeDisplay.innerHTML = dateString.replace(", ", " - ");
+        }
+
+        setInterval(refreshTime, 1000);
+        refreshTime();
+
+        $(document).ready(function() {
+            $(".auto-dismiss").fadeTo(4000, 500).slideUp(500, function () {
+                $(".auto-dismiss").slideUp(500);
+            });
+        });
+    </script>
+{% endblock %}
