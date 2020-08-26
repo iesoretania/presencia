@@ -65,10 +65,10 @@ class ProcessManualCodeService
 
                 if ($firstDate === $secondDate) {
                     $eventDatum = 'out';
-                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), $timestamp, 'manual');
+                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), 'manual', $timestamp);
                 } else {
                     $eventDatum = 'in';
-                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), null, 'manual');
+                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), 'manual', null);
                 }
             } else {
                 $eventDatum = 'in';
