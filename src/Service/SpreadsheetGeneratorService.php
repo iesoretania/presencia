@@ -6,10 +6,13 @@ use App\Entity\Presence\Record;
 use App\Entity\Worker;
 use App\Repository\EventRepository;
 use App\Repository\Presence\RecordRepository;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\Response;
 use Yectep\PhpSpreadsheetBundle\Factory;
 
 class SpreadsheetGeneratorService
@@ -28,7 +31,11 @@ class SpreadsheetGeneratorService
         $this->recordRepository = $recordRepository;
     }
 
-    public function getCurrentStateResponse()
+    /**
+     * @return Response
+     * @throws Exception
+     */
+    public function getCurrentStateResponse(): Response
     {
         $data = $this->eventRepository->listWorkersWithLastEventByData(['in', 'out']);
         $timeString = (new \DateTime())->format('Y-m-d H_i');
@@ -67,58 +74,94 @@ class SpreadsheetGeneratorService
         return $response;
     }
 
-    public function getRecordResponseByDate(\DateTime $date)
+    /**
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return Response
+     * @throws Exception
+     */
+    public function getRecordResponseByDateRange(\DateTime $startDate, \DateTime $endDate): Response
     {
-        $data = $this->recordRepository->findByDate($date);
-
-        $timeString = $date->format('Y-m-d');
-
         $spreadsheet = $this->spreadSheetFactory->createSpreadsheet();
 
-        $sheet = $spreadsheet->getActiveSheet()->setTitle($timeString);
+        $date = clone $startDate;
+        $date->setTime(0, 0, 0);
 
-        $pageSetup = $sheet->getPageSetup();
+        $lastDate = clone $endDate;
+        $lastDate->setTime(0, 0, 0);
 
-        $pageSetup
-            ->setPaperSize(PageSetup::PAPERSIZE_A4);
+        $fileName = $date->format('Y-m-d');
+        $fileName2 = $lastDate->format('Y-m-d');
 
-        $pageSetup->setFitToWidth(1);
-        $pageSetup->setFitToHeight(0);
+        if ($fileName !== $fileName2) {
+            $fileName .= '_' . $fileName2;
+        }
 
-        $row = 0;
-        $col = 3;
-        foreach ($data as $item) {
-            if ($item instanceof Worker) {
-                $row++;
-                $sheet->setCellValue('A' . $row, $item->getLastName());
-                $sheet->setCellValue('B' . $row, $item->getFirstName());
-                $sheet->setCellValue('C' . $row, Date::PHPToExcel($date));
-                $sheet->getStyle('C' . $row)->getNumberFormat()->setFormatCode(
-                    NumberFormat::FORMAT_DATE_DDMMYYYY
-                );
-                $col = 4;
+        $dateInterval = new \DateInterval('P1D');
+
+        $first = true;
+
+        while ($date <= $lastDate) {
+            $data = $this->recordRepository->findByDate($date);
+
+            $timeString = $date->format('Y-m-d');
+
+            if ($first) {
+                $sheet = $spreadsheet->getActiveSheet();
+                $first = false;
+            } else {
+                $sheet = new Worksheet();
+                $spreadsheet->addSheet($sheet);
             }
-            if ($item instanceof Record) {
-                $sheet->setCellValueByColumnAndRow($col, $row, $item->getInTimestamp()->format('H:i'));
-                if ($item->getOutTimestamp()) {
-                    $sheet->setCellValueByColumnAndRow($col + 1, $row, $item->getOutTimestamp()->format('H:i'));
+            $sheet->setTitle($timeString);
+
+            $pageSetup = $sheet->getPageSetup();
+
+            $pageSetup
+                ->setPaperSize(PageSetup::PAPERSIZE_A4);
+
+            $pageSetup->setFitToWidth(1);
+            $pageSetup->setFitToHeight(0);
+
+            $row = 0;
+            $col = 3;
+            foreach ($data as $item) {
+                if ($item instanceof Worker) {
+                    $row++;
+                    $sheet->setCellValue('A' . $row, $item->getLastName());
+                    $sheet->setCellValue('B' . $row, $item->getFirstName());
+                    $sheet->setCellValue('C' . $row, Date::PHPToExcel($date));
+                    $sheet->getStyle('C' . $row)->getNumberFormat()->setFormatCode(
+                        NumberFormat::FORMAT_DATE_DDMMYYYY
+                    );
+                    $col = 4;
                 }
-                $col += 2;
+                if ($item instanceof Record) {
+                    $sheet->setCellValueByColumnAndRow($col, $row, $item->getInTimestamp()->format('H:i'));
+                    if ($item->getOutTimestamp()) {
+                        $sheet->setCellValueByColumnAndRow($col + 1, $row, $item->getOutTimestamp()->format('H:i'));
+                    }
+                    $col += 2;
+                }
             }
+
+            $column = $sheet->getColumnDimension('A');
+            if ($column) {
+                $column->setAutoSize(true);
+            }
+            $column = $sheet->getColumnDimension('B');
+            if ($column) {
+                $column->setAutoSize(true);
+            }
+            $column = $sheet->getColumnDimension('C');
+            if ($column) {
+                $column->setAutoSize(true);
+            }
+
+            $date->add($dateInterval);
         }
 
-        $column = $sheet->getColumnDimension('A');
-        if ($column) {
-            $column->setAutoSize(true);
-        }
-        $column = $sheet->getColumnDimension('B');
-        if ($column) {
-            $column->setAutoSize(true);
-        }
-        $column = $sheet->getColumnDimension('C');
-        if ($column) {
-            $column->setAutoSize(true);
-        }
+        $spreadsheet->setActiveSheetIndex(0);
 
         $response = $this->spreadSheetFactory->createStreamedResponse($spreadsheet, 'Xlsx');
 
@@ -127,7 +170,7 @@ class SpreadsheetGeneratorService
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         );
 
-        $fileName = $timeString . '.xlsx';
+        $fileName .= '.xlsx';
 
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
@@ -137,5 +180,15 @@ class SpreadsheetGeneratorService
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+    }
+
+    /**
+     * @param \DateTime $date
+     * @return Response
+     * @throws Exception
+     */
+    public function getRecordResponseByDate(\DateTime $date): Response
+    {
+        return $this->getRecordResponseByDateRange($date, $date);
     }
 }

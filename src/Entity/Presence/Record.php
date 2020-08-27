@@ -98,7 +98,7 @@ class Record
     /**
      * @return \DateTime
      */
-    public function getOutTimestamp(): \DateTime
+    public function getOutTimestamp(): ?\DateTime
     {
         return $this->outTimestamp;
     }

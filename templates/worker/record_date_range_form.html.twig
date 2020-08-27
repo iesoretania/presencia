@@ -1,0 +1,9 @@
+{% extends 'layout.html.twig' %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">{{ 'form.submit'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
