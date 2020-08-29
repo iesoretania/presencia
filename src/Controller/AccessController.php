@@ -6,7 +6,9 @@ use App\Form\ManualCodeType;
 use App\Form\Model\ManualCode;
 use App\Service\ProcessManualCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccessController extends AbstractController
@@ -31,5 +33,26 @@ class AccessController extends AbstractController
         return $this->render('access/enter_code.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/code", name="access_remote_code")
+     */
+    public function remoteAccessAction(Request $request, ProcessManualCodeService $processManualCodeService)
+    {
+        if ($request->get('q') !== null) {
+            $data = $processManualCodeService->processCode($request->get('q'), new \DateTime());
+
+            $result = [
+                'result' => $data['result']
+            ];
+
+            if (isset($data['worker'])) {
+                $result['worker'] = $data['worker']->getFirstName() . ' ' . $data['worker']->getLastName();
+            }
+            return new JsonResponse($result);
+        }
+
+        throw new BadRequestHttpException();
     }
 }
