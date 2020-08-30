@@ -52,7 +52,7 @@ class ProcessManualCodeService
             $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $reader);
         } else {
             // si ha transcurrido menos de 5 minutos desde el último evento, ignorar
-            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < 0*60) {
+            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < 5*60) {
                 return [
                     'result' => 'ignore'
                 ];
