@@ -6,11 +6,14 @@ menu.name.logout: Desconectar
 menu.name.profile: Preferencias
 menu.name.exit_impersonation: Volver al usuario normal
 
+menu.name.dashboard: 'Estado actual'
+menu.tooltip.dashboard: 'Resumen de presencia de los empleados'
+
 menu.name.access: 'Código manual'
 menu.tooltip.access: 'Introducción manual de código'
 
-menu.name.current_state: 'Estado actual'
-menu.tooltip.current_state: 'Estado actual de presencia'
+menu.name.current_state: 'Presencia'
+menu.tooltip.current_state: 'Estado actual de presencia de los empleados'
 
 menu.name.workers: 'Empleados'
 menu.tooltip.workers: 'Gestión de empleados'
