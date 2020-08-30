@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WorkerController extends AbstractController
 {
     /**
-     * @Route("/estado", name="worker_current_state")
+     * @Route("/estado", name="current_state")
      */
     public function accessAction(EventRepository $eventRepository): Response
     {
@@ -25,7 +25,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/estado/descargar", name="worker_current_state_spreadsheet")
+     * @Route("/estado/descargar", name="current_state_spreadsheet")
      */
     public function downloadAction(SpreadsheetGeneratorService $currentStateSpreadsheetGenerator): Response
     {

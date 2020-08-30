@@ -8,3 +8,9 @@
         </div>
     {% endfor %}
 {% endmacro %}
+
+{% macro navbar_item(name, icon, route_name = '') %}
+    <li class="nav-item {% if route_name and app.request.get('_route') starts with route_name %} active{% endif %}">
+        <a class="nav-link" href="{{ route_name ? path(route_name) : '#' }}" title="{{ ('menu.tooltip.' ~ name)|trans }}"> <i class="fas fa-{{ icon }} fa-fw"></i> {{ ('menu.name.' ~ name)|trans }} <i class="fas fa-{{ icon }} shortmenu animate nav-icon"></i></a>
+    </li>
+{% endmacro %}

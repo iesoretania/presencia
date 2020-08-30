@@ -1,6 +1,32 @@
 title.welcome: ¡Bienvenido!
 hint.close: Cerrar
+hint.toggle: "Plegar o desplegar navegación"
 
-user.logged.as: "Conectado como %user%"
-user.logout: Desconectar
-user.exit_impersonation: Volver al usuario normal
+menu.name.logout: Desconectar
+menu.name.profile: Preferencias
+menu.name.exit_impersonation: Volver al usuario normal
+
+menu.name.access: 'Código manual'
+menu.tooltip.access: 'Introducción manual de código'
+
+menu.name.current_state: 'Estado actual'
+menu.tooltip.current_state: 'Estado actual de presencia'
+
+menu.name.workers: 'Empleados'
+menu.tooltip.workers: 'Gestión de empleados'
+
+menu.name.schedule: 'Horario laboral'
+menu.tooltip.schedule: 'Horario laboral'
+
+menu.name.events: 'Registro de eventos'
+menu.tooltip.events: 'Acceso al registro de eventos'
+
+menu.name.reports: 'Informes'
+menu.tooltip.reports: 'Generación de informes'
+
+menu.name.issues: 'Incidencias'
+menu.tooltip.issues: 'Gestión de incidencias detectadas'
+
+menu.name.readers: 'Lectores de código'
+menu.tooltip.readers: 'Gestión de lectores de código'
+

@@ -1,0 +1,30 @@
+{% trans_default_domain 'layout' %}
+{% import 'layout/macros_layout.html.twig' as ml %}
+
+<nav class="navbar header-top fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ path('frontpage') }}">{{ app_organization }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+            aria-expanded="false" aria-label="{{ 'hint.toggle'|trans }}">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav animate side-nav">
+            {{ ml.navbar_item('access', 'key', 'access_code') }}
+            {{ ml.navbar_item('current_state', 'eye', 'current_state') }}
+            {{ ml.navbar_item('workers', 'users') }}
+            {{ ml.navbar_item('schedule', 'business-time') }}
+            {{ ml.navbar_item('events', 'calendar-check') }}
+            {{ ml.navbar_item('reports', 'file') }}
+            {{ ml.navbar_item('issues', 'bell') }}
+            {{ ml.navbar_item('readers', 'laptop-code') }}
+        </ul>
+        <ul class="navbar-nav ml-md-auto d-md-flex">
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-user fa-fw"></i> {{ 'menu.name.profile'|trans }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-power-off fa-fw"></i> {{ 'menu.name.logout'|trans }}</a>
+            </li>
+        </ul>
+    </div>
+</nav>

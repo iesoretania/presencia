@@ -9,42 +9,23 @@
 {%- endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
-        <a class="navbar-brand" href="{{ path('frontpage') }}">{{ app_organization }}</a>
-        {% if false %} {# app.user #}
-        <span class="nav-text ml-auto mr-0 text-light">
-            {{ 'user.logged.as'|trans({'%user%': app.user}, 'layout') }}
-        </span>
-        <ul class="navbar-nav">
-            {% if false %} {# is_granted('ROLE_PREVIOUS_ADMIN') #}
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-user-slash"></i>
-                        {{ 'user.exit_impersonation'|trans({}, 'layout') }}
-                    </a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-power-off"></i> {{ 'user.logout'|trans({}, 'layout') }}</a>
-                </li>
-            {% endif %}
-        </ul>
-        {% endif %}
-    </nav>
-
-    {% block container %}
-    <div class="container">
-    <div class="row">
-        <main role="main" class="col-md-12 ml-sm-auto pt-3 px-4">
-            {% include 'layout/partial_flash.html.twig' %}
-            {% block content %}{% endblock %}
-        </main>
+    <div id="wrapper" class="animate">
+        {% include 'layout/navbar_partial.html.twig' %}
+        {% block container %}
+        <div class="container-fluid">
+        <div class="row">
+            <main role="main" class="col-md-12 ml-sm-auto pt-3 px-4">
+                {% include 'layout/flash_partial.html.twig' %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        {% endblock %}
     </div>
-    {% endblock %}
 </div>
 
 <div class="container">
 </div>
+
 <footer class="footer no-print" role="contentinfo">
     <div class="container">
         {% block footer %}
