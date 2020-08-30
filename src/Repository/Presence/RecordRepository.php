@@ -15,7 +15,13 @@ class RecordRepository extends ServiceEntityRepository
     }
 
     public function createNewRecord(
-        Worker $worker, \DateTime $in, string $source, \DateTime $out = null, Worker $sourceWorker = null
+        Worker $worker,
+        \DateTime $in,
+        string $source,
+        \DateTime $out = null,
+        string $code = null,
+        string $reader = null,
+        Worker $sourceWorker = null
     ): Record
     {
         $record = new Record();
@@ -24,7 +30,9 @@ class RecordRepository extends ServiceEntityRepository
             ->setInTimestamp($in)
             ->setOutTimestamp($out)
             ->setSource($source)
-            ->setSourceWorker($sourceWorker);
+            ->setSourceWorker($sourceWorker)
+            ->setCode($code)
+            ->setReader($reader);
 
         return $record;
     }
@@ -58,5 +66,16 @@ class RecordRepository extends ServiceEntityRepository
             ->getResult();
 
         return $result;
+    }
+
+    public function getRecordByWorkerAndInTimestamp(Worker $worker, \DateTime $timestamp): ?Record
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.worker = :worker')
+            ->andWhere('r.inTimestamp = :timestamp')
+            ->setParameter('timestamp', $timestamp)
+            ->setParameter('worker', $worker)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

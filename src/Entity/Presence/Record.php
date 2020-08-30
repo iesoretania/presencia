@@ -52,6 +52,18 @@ class Record
     private $sourceWorker;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $reader;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -146,6 +158,42 @@ class Record
     public function setSourceWorker(Worker $sourceWorker = null): Record
     {
         $this->sourceWorker = $sourceWorker;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return Record
+     */
+    public function setCode(string $code = null): Record
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReader(): string
+    {
+        return $this->reader;
+    }
+
+    /**
+     * @param string $reader
+     * @return Record
+     */
+    public function setReader(string $reader = null): Record
+    {
+        $this->reader = $reader;
         return $this;
     }
 }

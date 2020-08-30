@@ -41,7 +41,7 @@ class AccessController extends AbstractController
     public function remoteAccessAction(Request $request, ProcessManualCodeService $processManualCodeService)
     {
         if ($request->get('q') !== null) {
-            $data = $processManualCodeService->processCode($request->get('q'), new \DateTime());
+            $data = $processManualCodeService->processCode($request->get('q'), new \DateTime(), $request->get('o'));
 
             $result = [
                 'result' => $data['result']

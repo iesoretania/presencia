@@ -28,7 +28,7 @@ class ProcessManualCodeService
         $this->recordRepository = $recordRepository;
     }
 
-    public function processCode(string $code, \DateTime $timestamp): array
+    public function processCode(string $code, \DateTime $timestamp, string $reader = null): array
     {
         $accessCode = $this->accessCodeRepository->findByCode($code);
 
@@ -49,29 +49,37 @@ class ProcessManualCodeService
         if (null === $lastEvent) {
             // primera entrada del trabajador
             $eventDatum = 'in';
+            $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $reader);
         } else {
             // si ha transcurrido menos de 5 minutos desde el último evento, ignorar
-            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < 5*60) {
+            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < 0*60) {
                 return [
                     'result' => 'ignore'
                 ];
             }
 
             if ($lastEvent->getData() === 'in') {
-                // último evento: entrada. Comprobar si es del mismo día, si no lo es crear un registro sin hora
-                // de salida y generar un evento de entrada
+                // último evento: entrada. Comprobar si es del mismo día:
+                // - Si lo es, actualizar registro
+                // - Si no lo es, crear registro nuevo
                 $firstDate = $timestamp->format('Y-m-d');
                 $secondDate = $lastEvent->getTimestamp()->format('Y-m-d');
 
                 if ($firstDate === $secondDate) {
                     $eventDatum = 'out';
-                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), 'manual', $timestamp);
+                    $record = $this->recordRepository->getRecordByWorkerAndInTimestamp($worker, $lastEvent->getTimestamp());
+                    if (null === $record) {
+                        $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $code, $reader);
+                    }
+                    $record->setOutTimestamp($timestamp);
                 } else {
                     $eventDatum = 'in';
-                    $record = $this->recordRepository->createNewRecord($worker, $lastEvent->getTimestamp(), 'manual', null);
+                    $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $code, $reader);
                 }
             } else {
+                // Último evento: salida. Registrar nuevo
                 $eventDatum = 'in';
+                $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $code, $reader);
             }
         }
 
