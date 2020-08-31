@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "hautelook/alice-bundle": "^2.7",
+        "league/csv": "^9.5",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "4.4.*",
         "symfony/console": "4.4.*",
@@ -37,7 +38,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.4"
+            "php": "7.2.5"
         },
         "preferred-install": {
             "*": "dist"

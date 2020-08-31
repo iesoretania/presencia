@@ -113,6 +113,9 @@
             "fixtures/.gitignore"
         ]
     },
+    "league/csv": {
+        "version": "9.5.0"
+    },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },
@@ -148,7 +151,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.2.4"
+        "version": "7.2.5"
     },
     "phpoffice/phpspreadsheet": {
         "version": "1.14.1"
