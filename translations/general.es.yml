@@ -1,0 +1,5 @@
+hint.close: Cerrar
+
+format.datetime: d/m/Y H:i
+format.date: d/m/Y
+format.time: H:i

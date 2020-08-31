@@ -31,6 +31,12 @@ class Worker
     private $lastName;
 
     /**
+     * @ORM\Column(type="string", nullable=true, unique=true)
+     * @var string
+     */
+    private $internalCode;
+
+    /**
      * @ORM\Column(type="boolean")
      * @var bool
      */
@@ -82,6 +88,24 @@ class Worker
     public function setLastName(string $lastName): Worker
     {
         $this->lastName = $lastName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalCode(): string
+    {
+        return $this->internalCode;
+    }
+
+    /**
+     * @param string $internalCode
+     * @return Worker
+     */
+    public function setInternalCode(string $internalCode): Worker
+    {
+        $this->internalCode = $internalCode;
         return $this;
     }
 

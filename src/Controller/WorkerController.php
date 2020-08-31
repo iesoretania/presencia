@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\DateRangeType;
 use App\Form\Model\DateRange;
+use App\Repository\Presence\RecordRepository;
 use App\Service\SpreadsheetGeneratorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WorkerController extends AbstractController
 {
+    /**
+     * @Route("/personal", name="worker_list")
+     */
+    public function workerListAction(RecordRepository $recordRepository): Response
+    {
+        $data = $recordRepository->listWorkersWithLastRecord();
+
+        return $this->render('worker/list.html.twig', [
+            'data' => $data
+        ]);
+    }
+
     /**
      * @Route("/resumen/descargar", name="worker_record_spreadsheet")
      */

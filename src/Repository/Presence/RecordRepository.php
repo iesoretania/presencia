@@ -78,4 +78,34 @@ class RecordRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function listWorkersWithLastRecord()
+    {
+        $today = new \DateTime();
+        $today->setTime(0, 0, 0, 0);
+
+        $result = $this->getEntityManager()->createQueryBuilder()
+            ->addSelect('w')
+            ->addSelect('r1')
+            ->from(Worker::class, 'w')
+            ->leftJoin(
+                Record::class,
+                'r1',
+                'WITH',
+                'r1.worker = w'
+            )
+            ->leftJoin(
+                Record::class,
+                'r2',
+                'WITH',
+                'r2.worker = r1.worker AND r1.inTimestamp < r2.inTimestamp'
+            )
+            ->andWhere('r2 IS NULL AND w IS NOT NULL')
+            ->orderBy('w.lastName', 'ASC')
+            ->addOrderBy('w.firstName', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return array_chunk($result, 2);
+    }
 }

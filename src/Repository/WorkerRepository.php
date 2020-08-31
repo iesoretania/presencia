@@ -12,4 +12,13 @@ class WorkerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Worker::class);
     }
+
+    public function findAllSorted()
+    {
+        return $this->createQueryBuilder('w')
+            ->orderBy('w.lastName')
+            ->addOrderBy('w.firstName')
+            ->getQuery()
+            ->getResult();
+    }
 }

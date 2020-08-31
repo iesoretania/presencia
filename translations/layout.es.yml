@@ -15,8 +15,8 @@ menu.tooltip.access: 'Introducción manual de código'
 menu.name.current_state: 'Presencia'
 menu.tooltip.current_state: 'Estado actual de presencia de los empleados'
 
-menu.name.workers: 'Empleados'
-menu.tooltip.workers: 'Gestión de empleados'
+menu.name.workers: 'Personal'
+menu.tooltip.workers: 'Gestión del personal del centro'
 
 menu.name.schedule: 'Horario laboral'
 menu.tooltip.schedule: 'Horario laboral'
