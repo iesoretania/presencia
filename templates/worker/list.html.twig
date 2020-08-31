@@ -9,26 +9,20 @@
         <table class="table table-hover table-striped table-bordered table-sm">
             <thead>
                 <tr>
-                    <th class="w-25">{{ 'header.last_name'|trans }}</th>
-                    <th class="w-25">{{ 'header.first_name'|trans }}</th>
-                    <th class="w-20">{{ 'header.last_in'|trans }}</th>
-                    <th class="w-20">{{ 'header.last_out'|trans }}</th>
-                    <th></th>
+                    <th>{{ 'header.last_name'|trans }}</th>
+                    <th>{{ 'header.first_name'|trans }}</th>
+                    <th>{{ 'header.last_in'|trans }}</th>
+                    <th>{{ 'header.last_out'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for datum in data %}
+                    {% set url = path('worker_form', {'id': datum[0].id}) %}
                     <tr>
-                        <td>{{ datum[0].lastName }}</td>
-                        <td>{{ datum[0].firstName }}</td>
+                        <td><a href="{{ url }}">{{ datum[0].lastName }}</a></td>
+                        <td><a href="{{ url }}">{{ datum[0].firstName }}</a></td>
                         <td>{% if datum[1] %}{{ datum[1].inTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
                         <td>{% if datum[1] and datum[1].outTimestamp%}{{ datum[1].outTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
-                        <td>
-                            <a href="{{ path('worker_form', {'id': datum[0].id}) }}" title="{{ 'button.edit'|trans }}"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="" title="{{ 'button.codes'|trans }}"><i class="fas fa-id-card"></i></a>
-                            <a href="" title="{{ 'button.records'|trans }}"><i class="fas fa-clipboard"></i></a>
-                            <a href="" title="{{ 'button.delete'|trans }}"><i class="fas fa-trash"></i></a>
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
