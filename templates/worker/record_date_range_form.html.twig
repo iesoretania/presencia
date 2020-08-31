@@ -1,9 +1,12 @@
 {% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
 {% trans_default_domain 'worker' %}
 
 {% block content %}
     {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
         {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">{{ 'form.submit'|trans }}</button>
+        {{ m.start_button() }}
+        {{ m.submit_button('save', 'file-excel', 'btn-primary', 'button.generate_report'|trans) }}
+        {{ m.end_button() }}
     {{ form_end(form) }}
 {% endblock %}

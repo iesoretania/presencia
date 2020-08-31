@@ -24,7 +24,7 @@
                         <td>{% if datum[1] %}{{ datum[1].inTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
                         <td>{% if datum[1] and datum[1].outTimestamp%}{{ datum[1].outTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
                         <td>
-                            <a href="" title="{{ 'button.edit'|trans }}"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="{{ path('worker_form', {'id': datum[0].id}) }}" title="{{ 'button.edit'|trans }}"><i class="fas fa-pencil-alt"></i></a>
                             <a href="" title="{{ 'button.codes'|trans }}"><i class="fas fa-id-card"></i></a>
                             <a href="" title="{{ 'button.records'|trans }}"><i class="fas fa-clipboard"></i></a>
                             <a href="" title="{{ 'button.delete'|trans }}"><i class="fas fa-trash"></i></a>
@@ -35,6 +35,6 @@
         </table>
     </div>
 
-    {{ m.link_button('', 'plus', 'btn-success', 'button.new'|trans) }}
+    {{ m.link_button(path('worker_new'), 'plus', 'btn-success', 'button.new'|trans) }}
     {{ m.link_button('', 'upload', 'btn-primary', 'button.import'|trans) }}
 {% endblock %}

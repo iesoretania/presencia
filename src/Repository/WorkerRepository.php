@@ -13,6 +13,12 @@ class WorkerRepository extends ServiceEntityRepository
         parent::__construct($registry, Worker::class);
     }
 
+    public function save(Worker $worker): void
+    {
+        $this->getEntityManager()->persist($worker);
+        $this->getEntityManager()->flush();
+    }
+
     public function findAllSorted()
     {
         return $this->createQueryBuilder('w')
@@ -20,5 +26,19 @@ class WorkerRepository extends ServiceEntityRepository
             ->addOrderBy('w.firstName')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findNextOrNull(Worker $worker): ?Worker
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.lastName >= :last_name')
+            ->andWhere('w != :worker')
+            ->setParameter('last_name', $worker->getLastName())
+            ->setParameter('worker', $worker)
+            ->orderBy('w.lastName')
+            ->addOrderBy('w.firstName')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 }

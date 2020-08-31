@@ -22,13 +22,13 @@ class Worker
      * @ORM\Column(type="string")
      * @var string
      */
-    private $firstName;
+    private $firstName = '';
 
     /**
      * @ORM\Column(type="string")
      * @var string
      */
-    private $lastName;
+    private $lastName = '';
 
     /**
      * @ORM\Column(type="string", nullable=true, unique=true)
@@ -50,7 +50,7 @@ class Worker
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -94,7 +94,7 @@ class Worker
     /**
      * @return string
      */
-    public function getInternalCode(): string
+    public function getInternalCode(): ?string
     {
         return $this->internalCode;
     }
@@ -103,7 +103,7 @@ class Worker
      * @param string $internalCode
      * @return Worker
      */
-    public function setInternalCode(string $internalCode): Worker
+    public function setInternalCode(string $internalCode = null): Worker
     {
         $this->internalCode = $internalCode;
         return $this;

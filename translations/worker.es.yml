@@ -1,4 +1,6 @@
 title: Personal del centro
+title.form: Modificar datos personales
+title.new: Alta de personal
 
 header.first_name: Nombre
 header.last_name: Apellidos
@@ -15,4 +17,15 @@ button.import: Importar desde Séneca
 
 form.first_date: Fecha inicial
 form.last_date: Fecha final
-form.submit: Generar informe
+button.generate_report: Generar informe
+
+form.first_name: Nombre
+form.last_name: Apellidos
+form.internal_code: Usuario IdEA
+
+button.submit: Guardar cambios
+button.next: Guardar cambios y ver siguiente
+button.back: Volver al listado
+
+message.saved: 'Cambios guardados con éxito'
+message.save_error: 'Ha ocurrido un error al guardar los cambios'
