@@ -1,12 +1,13 @@
 {% extends 'layout.html.twig' %}
 {% import 'macros.html.twig' as m %}
-{% trans_default_domain 'worker' %}
+{% trans_default_domain 'report' %}
 
 {% block content %}
+    <h2>{{ 'title'|trans }}</h2>
     {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
         {{ form_widget(form) }}
         {{ m.start_button() }}
-        {{ m.submit_button('save', 'file-excel', 'btn-primary', 'button.generate_report'|trans) }}
+        {{ m.submit_button('save', 'file-excel', 'btn-info', 'button.generate_report'|trans) }}
         {{ m.end_button() }}
     {{ form_end(form) }}
 {% endblock %}

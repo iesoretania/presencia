@@ -1,0 +1,7 @@
+title: Generación de informes
+
+form.first_date: Fecha inicial
+form.last_date: Fecha final
+button.generate_report: Generar informe de las fechas indicadas
+
+button.generate_report.today: Generar informe sólo de hoy

@@ -28,7 +28,7 @@ class DateRangeType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => DateRange::class,
-                'translation_domain' => 'worker'
+                'translation_domain' => 'report'
             ]);
     }
 }

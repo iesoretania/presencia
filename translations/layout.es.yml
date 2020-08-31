@@ -12,7 +12,7 @@ menu.tooltip.dashboard: 'Resumen de presencia de los empleados'
 menu.name.access: 'Código manual'
 menu.tooltip.access: 'Introducción manual de código'
 
-menu.name.current_state: 'Presencia'
+menu.name.current_state: 'Presencia actual'
 menu.tooltip.current_state: 'Estado actual de presencia de los empleados'
 
 menu.name.workers: 'Personal'

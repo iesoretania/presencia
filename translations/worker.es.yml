@@ -15,10 +15,6 @@ button.delete: Eliminar
 button.new: Añadir persona
 button.import: Importar desde Séneca
 
-form.first_date: Fecha inicial
-form.last_date: Fecha final
-button.generate_report: Generar informe
-
 form.first_name: Nombre
 form.last_name: Apellidos
 form.internal_code: Usuario IdEA
