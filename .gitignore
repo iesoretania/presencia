@@ -1,5 +1,6 @@
 /node_modules/
 /public/build/
+/db/sqlite3.db3
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -9,3 +10,4 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
