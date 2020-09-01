@@ -5,10 +5,12 @@ namespace App\Entity\Presence;
 
 use App\Entity\Worker;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Presence\AccessCodeRepository")
  * @ORM\Table(name="access_code")
+ * @UniqueEntity("code")
  */
 class AccessCode
 {
@@ -62,7 +64,7 @@ class AccessCode
     /**
      * @return string
      */
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }

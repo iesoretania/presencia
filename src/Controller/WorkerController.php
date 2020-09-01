@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Presence\AccessCode;
 use App\Entity\Worker;
+use App\Form\AccessCodeNewType;
 use App\Form\Model\FileImport;
 use App\Form\TeacherImportType;
 use App\Form\WorkerEditType;
@@ -70,10 +72,28 @@ class WorkerController extends AbstractController
         } else {
             $next = null;
         }
+
+        $newAccessCode = new AccessCode();
+        $newAccessCode
+            ->setWorker($worker);
+
+        $newAccessCodeForm = $this->createForm(AccessCodeNewType::class, $newAccessCode);
+        $newAccessCodeForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $workerRepository->save($worker);
                 $this->addFlash('success', $translator->trans('message.saved', [], 'worker'));
+                return $this->redirectToRoute('worker_list');
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
+            }
+        }
+
+        if ($newAccessCodeForm->isSubmitted() && $newAccessCodeForm->isValid()) {
+            try {
+                $accessCodeRepository->save($newAccessCode);
+                $this->addFlash('success', $translator->trans('message.code_saved', [], 'worker'));
                 if ($next && $request->request->has('next')) {
                     return $this->redirectToRoute('worker_form', ['id' => $next->getId()]);
                 }
@@ -91,11 +111,13 @@ class WorkerController extends AbstractController
 
         return $this->render('worker/form.html.twig', [
             'form' => $form->createView(),
+            'form_code' => $newAccessCodeForm->createView(),
             'worker' => $worker,
             'next' => $next,
             'access_codes' => $accessCodes
         ]);
     }
+
     /**
      * @Route("/personal/importar", name="worker_teacher_import")
      */

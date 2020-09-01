@@ -14,6 +14,12 @@ class AccessCodeRepository extends ServiceEntityRepository
         parent::__construct($registry, AccessCode::class);
     }
 
+    public function save(AccessCode $accessCode): void
+    {
+        $this->getEntityManager()->persist($accessCode);
+        $this->getEntityManager()->flush();
+    }
+
     public function findByCode(string $code): ?AccessCode
     {
         return $this->createQueryBuilder('ac')

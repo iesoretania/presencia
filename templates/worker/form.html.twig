@@ -9,31 +9,41 @@
         {{ m.start_button() }}
         {{ m.link_button(path('worker_list'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
         {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
-        {% if next %}{{ m.submit_button('next', 'forward', 'btn-success', 'button.next'|trans) }}{% endif %}
         {{ m.end_button() }}
     {{ form_end(form) }}
 
     {% if worker.id %}
         <h2>{{ 'title.codes'|trans }}</h2>
+
         <table class="table table-bordered table-striped table-hover table-sm">
             <thead>
                 <tr>
                     <th>{{ 'header.code'|trans }}</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
             {% for access_code in access_codes %}
                 <tr>
-                    <td>{{ access_code.code }}</td>
-                    <td></td>
+                    <td>
+                        {{ access_code.code }}
+                        <a href=""><i class="fas fa-pencil-alt"></i></a>
+                        <a href=""><i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="2">{{ 'form.no_codes'|trans }}</td>
+                    <td>{{ 'form.no_codes'|trans }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        {{ form_start(form_code) }}
+        {{ form_widget(form_code) }}
+        {{ m.start_button() }}
+        {{ m.submit_button('add', 'plus', 'btn-success', 'button.submit_code'|trans) }}
+        {% if next %}{{ m.submit_button('next', 'forward', 'btn-primary', 'button.next'|trans) }}{% endif %}
+        {{ m.end_button() }}
+        {{ form_end(form_code) }}
     {% endif %}
 {% endblock %}
