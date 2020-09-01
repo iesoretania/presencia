@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Presence\AccessCode;
 use App\Entity\Worker;
+use App\Form\AccessCodeEditType;
 use App\Form\AccessCodeNewType;
 use App\Form\Model\FileImport;
 use App\Form\TeacherImportType;
@@ -144,6 +145,63 @@ class WorkerController extends AbstractController
 
         return $this->render('worker/teacher_import_form.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/personal/codigo/{id}", name="worker_access_code_form", requirements={"id":"\d+"})
+     */
+    public function workerAccessCodeFormAction(
+        Request $request,
+        AccessCodeRepository $accessCodeRepository,
+        TranslatorInterface $translator,
+        AccessCode $accessCode
+    ): Response
+    {
+        $form = $this->createForm(AccessCodeEditType::class, $accessCode);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $accessCodeRepository->save($accessCode);
+                $this->addFlash('success', $translator->trans('message.saved', [], 'worker'));
+                return $this->redirectToRoute('worker_form', ['id' => $accessCode->getWorker()->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
+            }
+        }
+
+        return $this->render('worker/access_code_form.html.twig', [
+            'form' => $form->createView(),
+            'access_code' => $accessCode
+        ]);
+    }
+
+    /**
+     * @Route("/personal/codigo/eliminar/{id}", name="worker_access_code_delete", requirements={"id":"\d+"})
+     */
+    public function workerAccessCodeDeleteAction(
+        Request $request,
+        AccessCodeRepository $accessCodeRepository,
+        TranslatorInterface $translator,
+        AccessCode $accessCode
+    ): Response
+    {
+        if ($request->get('confirm', '') === 'ok') {
+            try {
+                $accessCodeRepository->delete($accessCode);
+                $this->addFlash('success', $translator->trans('message.access_code_deleted', [], 'worker'));
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('message.access_code_delete_error', [], 'worker'));
+            }
+            return $this->redirectToRoute(
+                'worker_form',
+                ['id' => $accessCode->getWorker()->getId()]
+            );
+        }
+
+        return $this->render('worker/access_code_delete.html.twig', [
+            'access_code' => $accessCode
         ]);
     }
 }

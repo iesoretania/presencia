@@ -20,6 +20,12 @@ class AccessCodeRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function delete(AccessCode $accessCode)
+    {
+        $this->getEntityManager()->remove($accessCode);
+        $this->getEntityManager()->flush();
+    }
+
     public function findByCode(string $code): ?AccessCode
     {
         return $this->createQueryBuilder('ac')

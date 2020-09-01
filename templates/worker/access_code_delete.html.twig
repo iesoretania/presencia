@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    <h2>{{ 'title.access_code_delete'|trans }}</h2>
+    <form method="post">
+        <input type="hidden" name="confirm" value="ok">
+        <div class="alert alert-warning">{{ 'text.access_code_delete_warning'|trans({'%code%': access_code.code})|nl2br }}</div>
+        {{ m.link_button(path('worker_form', {'id': access_code.worker.id}), 'arrow-left', 'btn-info', 'button.back_to_worker'|trans) }}
+        {{ m.submit_button('submit', 'trash', 'btn-danger', 'button.access_code_delete_confirm'|trans) }}
+    </form>
+{% endblock %}

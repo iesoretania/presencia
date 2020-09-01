@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    <h2>{{ 'title.access_code_form'|trans }}</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ m.start_button() }}
+        {{ m.link_button(path('worker_form', {'id': access_code.worker.id}), 'arrow-left', 'btn-info', 'button.back_to_worker'|trans) }}
+        {{ m.submit_button('save', 'check', 'btn-success', 'button.access_code_submit'|trans) }}
+        {{ m.end_button() }}
+    {{ form_end(form) }}
+{% endblock %}

@@ -26,8 +26,8 @@
                 <tr>
                     <td>
                         {{ access_code.code }}
-                        <a href=""><i class="fas fa-pencil-alt"></i></a>
-                        <a href=""><i class="fas fa-trash"></i></a>
+                        <a href="{{ path('worker_access_code_form', {'id': access_code.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{ path('worker_access_code_delete', {'id': access_code.id}) }}"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {% else %}
@@ -42,7 +42,7 @@
         {{ form_widget(form_code) }}
         {{ m.start_button() }}
         {{ m.submit_button('add', 'plus', 'btn-success', 'button.submit_code'|trans) }}
-        {% if next %}{{ m.submit_button('next', 'forward', 'btn-primary', 'button.next'|trans) }}{% endif %}
+        {% if next %}{{ m.submit_button('next', 'forward', 'btn-secondary', 'button.next'|trans) }}{% endif %}
         {{ m.end_button() }}
         {{ form_end(form_code) }}
     {% endif %}
