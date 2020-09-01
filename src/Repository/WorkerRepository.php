@@ -19,6 +19,16 @@ class WorkerRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function persist(Worker $worker): void
+    {
+        $this->getEntityManager()->persist($worker);
+    }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
     public function findAllSorted()
     {
         return $this->createQueryBuilder('w')
@@ -26,6 +36,15 @@ class WorkerRepository extends ServiceEntityRepository
             ->addOrderBy('w.firstName')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findOneByInternalCode(string $code): ?Worker
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.internalCode = :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function findNextOrNull(Worker $worker): ?Worker

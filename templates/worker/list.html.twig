@@ -30,5 +30,5 @@
     </div>
 
     {{ m.link_button(path('worker_new'), 'plus', 'btn-success', 'button.new'|trans) }}
-    {{ m.link_button('', 'upload', 'btn-primary', 'button.import'|trans) }}
+    {{ m.link_button(path('worker_teacher_import'), 'upload', 'btn-primary', 'button.teacher_import'|trans) }}
 {% endblock %}

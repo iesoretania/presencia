@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    <h2>{{ 'title.teacher_import'|trans }}</h2>
+    <div class="alert alert-info">{{ 'text.teacher_import'|trans }}</div>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ m.start_button() }}
+        {{ m.link_button(path('worker_list'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+        {{ m.submit_button('import', 'upload', 'btn-success', 'button.import'|trans) }}
+        {{ m.end_button() }}
+    {{ form_end(form) }}
+{% endblock %}

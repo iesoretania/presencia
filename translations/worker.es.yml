@@ -1,6 +1,8 @@
 title: Personal del centro
 title.form: Modificar datos personales
 title.new: Alta de personal
+title.teacher_import: Importación de profesorado desde Séneca
+title.codes: Códigos personales
 
 header.first_name: Nombre
 header.last_name: Apellidos
@@ -13,11 +15,15 @@ button.records: Registros asociados
 button.delete: Eliminar
 
 button.new: Añadir persona
-button.import: Importar desde Séneca
+button.import: Importar
+button.teacher_import: Importar profesorado desde Séneca
 
 form.first_name: Nombre
 form.last_name: Apellidos
 form.internal_code: Usuario IdEA
+form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
+
+form.teacher_csv: Fichero .csv de profesorado
 
 button.submit: Guardar cambios
 button.next: Guardar cambios y ver siguiente
@@ -25,3 +31,5 @@ button.back: Volver al listado
 
 message.saved: 'Cambios guardados con éxito'
 message.save_error: 'Ha ocurrido un error al guardar los cambios'
+
+text.teacher_import: 'El fichero generado debe tener al menos las columnas "Usuario IdEA" y "Empleado/a"'
