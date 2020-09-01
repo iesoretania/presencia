@@ -7,15 +7,16 @@
                 <p id="time"></p>
             </div>
         </div>
-        <div class="row" id="state">
+        <div class="row justify-content-center" id="state">
             {% for datum in data %}
                 {% set class = "none" %}
                 {% if datum[1] %}
                     {% set class = datum[1].data %}
                 {% endif %}
-                <div class="col-xl-2 col-md-3 col-sm-4 align-self-center">
-                    <span class="dot dot-{{ class }}"></span>
-                    {{ datum[0].lastName }}, {{ datum[0].firstName }}
+                <div class="card text-center state-{{ class }} state">
+                        <p class="card-text m-1">
+                            {{ datum[0].lastName }}, {{ datum[0].firstName }}
+                        </p>
                 </div>
             {% endfor %}
         </div>

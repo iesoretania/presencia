@@ -256,6 +256,24 @@ input#manual_code_code {
     background-color: #b00;
 }
 
+.state {
+  width: 18rem;
+}
+
+.state-none {
+
+}
+
+.state-in {
+  background-color: #006600;
+  color: #fff;
+}
+
+.state-out {
+  background-color: #660000;
+  color: #fff;
+}
+
 #wrapper {
     padding: 90px 15px;
 }
