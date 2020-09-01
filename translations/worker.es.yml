@@ -52,12 +52,21 @@ message.saved: 'Cambios guardados con éxito'
 message.code_saved: 'Código de acceso registrado con éxito'
 message.save_error: 'Ha ocurrido un error al guardar los cambios'
 
+message.bad_format: 'El fichero no contiene la estructura necesaria. Revise las instrucciones'
+
 message.deleted: 'Persona eliminada con éxito'
 message.delete_error: 'Ha ocurrido un error al eliminar la persona y sus datos asociados'
 
 message.access_code_deleted: 'Código de acceso eliminado con éxito'
 message.access_code_delete_error: 'Ha ocurrido un error al eliminar el código de acceso'
 
-text.teacher_import: 'El fichero generado debe tener al menos las columnas "Usuario IdEA" y "Empleado/a"'
+text.teacher_import: >
+  Para generar el fichero, desde el perfil "Dirección" seleccionar la ruta "Personal > Personal del centro".
+  En los botones de la barra superior, seleccionar "Exportar datos".
+
+  Seleccionar "Fichero CSV" en "Exportar los datos al formato" e introducir las letras que aparecen en el dibujo en “Introduzca el texto de la imagen”.
+
+  Seleccionar al menos las columnas "Usuario IdEA" y "Empleado/a" (se pueden dejar de más) y hacer clic en "Aceptar".
+
 text.delete_warning: '¿Está seguro de que desea eliminar a %worker%? Se eliminarán todos los registros asociados. Esta operación no se puede deshacer.'
 text.access_code_delete_warning: '¿Está seguro de que desea eliminar el código "%code%"?'

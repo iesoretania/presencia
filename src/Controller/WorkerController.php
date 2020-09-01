@@ -162,6 +162,8 @@ class WorkerController extends AbstractController
                 $teacherImportService->importFromFile($csvFile->file->getPathname());
 
                 return $this->redirectToRoute('worker_list');
+            } catch (\RuntimeException $e) {
+                $this->addFlash('error', $translator->trans('message.bad_format', [], 'worker'));
             } catch (\Exception $e) {
                 $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
             }
