@@ -6,6 +6,7 @@ use App\Entity\Worker;
 use App\Form\Model\FileImport;
 use App\Form\TeacherImportType;
 use App\Form\WorkerEditType;
+use App\Repository\Presence\AccessCodeRepository;
 use App\Repository\Presence\RecordRepository;
 use App\Repository\WorkerRepository;
 use App\Service\TeacherImportService;
@@ -35,12 +36,19 @@ class WorkerController extends AbstractController
     public function workerNewAction(
         Request $request,
         WorkerRepository $workerRepository,
+        AccessCodeRepository $accessCodeRepository,
         TranslatorInterface $translator
     ): Response
     {
         $worker = new Worker();
 
-        return $this->workerFormAction($request, $workerRepository, $translator, $worker);
+        return $this->workerFormAction(
+            $request,
+            $workerRepository,
+            $accessCodeRepository,
+            $translator,
+            $worker
+        );
     }
 
     /**
@@ -49,6 +57,7 @@ class WorkerController extends AbstractController
     public function workerFormAction(
         Request $request,
         WorkerRepository $workerRepository,
+        AccessCodeRepository $accessCodeRepository,
         TranslatorInterface $translator,
         Worker $worker
     ): Response
@@ -74,10 +83,17 @@ class WorkerController extends AbstractController
             }
         }
 
+        if ($worker->getId()) {
+            $accessCodes = $accessCodeRepository->findByWorker($worker);
+        } else {
+            $accessCodes = [];
+        }
+
         return $this->render('worker/form.html.twig', [
             'form' => $form->createView(),
             'worker' => $worker,
-            'next' => $next
+            'next' => $next,
+            'access_codes' => $accessCodes
         ]);
     }
     /**

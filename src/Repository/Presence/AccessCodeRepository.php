@@ -3,6 +3,7 @@
 namespace App\Repository\Presence;
 
 use App\Entity\Presence\AccessCode;
+use App\Entity\Worker;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,5 +23,14 @@ class AccessCodeRepository extends ServiceEntityRepository
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findByWorker(Worker $worker)
+    {
+        return $this->createQueryBuilder('ac')
+            ->where('ac.worker = :worker')
+            ->setParameter('worker', $worker)
+            ->getQuery()
+            ->getResult();
     }
 }

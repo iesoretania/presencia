@@ -12,4 +12,28 @@
         {% if next %}{{ m.submit_button('next', 'forward', 'btn-success', 'button.next'|trans) }}{% endif %}
         {{ m.end_button() }}
     {{ form_end(form) }}
+
+    {% if worker.id %}
+        <h2>{{ 'title.codes'|trans }}</h2>
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>{{ 'header.code'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for access_code in access_codes %}
+                <tr>
+                    <td>{{ access_code.code }}</td>
+                    <td></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">{{ 'form.no_codes'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

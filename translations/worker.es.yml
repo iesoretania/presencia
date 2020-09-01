@@ -9,6 +9,8 @@ header.last_name: Apellidos
 header.last_in: Últ. entrada
 header.last_out: Últ. salida
 
+header.code: Código de acceso
+
 button.edit: Modificar
 button.codes: Códigos asociados
 button.records: Registros asociados
@@ -24,6 +26,8 @@ form.internal_code: Usuario IdEA
 form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 
 form.teacher_csv: Fichero .csv de profesorado
+
+form.no_codes: No hay códigos registrados
 
 button.submit: Guardar cambios
 button.next: Guardar cambios y ver siguiente
