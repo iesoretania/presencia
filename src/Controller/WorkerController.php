@@ -26,7 +26,7 @@ class WorkerController extends AbstractController
      */
     public function workerListAction(RecordRepository $recordRepository): Response
     {
-        $data = $recordRepository->listWorkersWithLastRecord();
+        $data = $recordRepository->findByDate(new \DateTime());
 
         return $this->render('worker/list.html.twig', [
             'data' => $data

@@ -9,26 +9,44 @@
         <table class="table table-hover table-striped table-bordered table-sm">
             <thead>
                 <tr>
-                    <th>{{ 'header.last_name'|trans }}</th>
-                    <th>{{ 'header.first_name'|trans }}</th>
-                    <th>{{ 'header.last_in'|trans }}</th>
-                    <th>{{ 'header.last_out'|trans }}</th>
+                    <th>{{ 'header.name'|trans }}</th>
+                    <th>{{ 'header.today'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
+                {% set old_worker = null %}
+                {% set first = true %}
                 {% for datum in data %}
-                    {% set url = path('worker_form', {'id': datum[0].id}) %}
-                    <tr>
-                        <td><a href="{{ url }}">{{ datum[0].lastName }}</a></td>
-                        <td><a href="{{ url }}">{{ datum[0].firstName }}</a></td>
-                        <td>{% if datum[1] %}{{ datum[1].inTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
-                        <td>{% if datum[1] and datum[1].outTimestamp%}{{ datum[1].outTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
-                    </tr>
+                    {% if datum.firstName is defined and datum != old_worker %}
+                        {% if old_worker is not null %}
+                            {% if first %}<span class="text-muted">{{ 'table.none'|trans }}</span>{% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% set old_worker = datum %}
+                        {% set url = path('worker_form', {'id': datum.id}) %}
+                        {% set first = true %}
+                        <tr>
+                            <td><a href="{{ url }}">{{ datum.lastName }}, {{ datum.firstName }}</a></td>
+                            <td>
+                    {% else %}
+                            {% if datum %}
+                                <span class="badge badge-{% if datum.outTimestamp %}success{% else %}info{% endif %}">
+                                {% set first = false %}
+                                {{ datum.inTimestamp|date('format.time'|trans({}, 'general')) -}}
+                                {%- if datum.outTimestamp %}-{{ datum.outTimestamp|date('format.time'|trans({}, 'general')) }}{% endif %}
+                                </span>
+                            {% endif %}
+                    {% endif %}
                 {% else %}
                     <tr>
-                        <td colspan="4">{{ 'header.no_workers'|trans }}</td>
+                        <td colspan="2">{{ 'table.no_workers'|trans }}</td>
                     </tr>
                 {% endfor %}
+                {% if old_worker is not null %}
+                    {% if first %}{{ 'table.none'|trans }}{% endif %}
+                    </td><tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

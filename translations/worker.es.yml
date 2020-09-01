@@ -9,12 +9,11 @@ title.codes: Códigos de acceso asociados
 title.access_code_form: Modificar código de acceso
 title.access_code_delete: Eliminar código de acceso
 
-header.first_name: Nombre
-header.last_name: Apellidos
-header.last_in: Últ. entrada
-header.last_out: Últ. salida
+header.name: Nombre completo
+header.today: Presencia registrada hoy
 
-header.no_workers: No hay personal registrado
+table.no_workers: No hay personal registrado
+table.none: Ninguna
 
 header.code: Código de acceso
 
@@ -34,7 +33,7 @@ form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 
 form.teacher_csv: Fichero .csv de profesorado
 
-form.no_codes: No hay códigos registrados
+table.no_codes: No hay códigos registrados
 form.access_code: Código de acceso
 form.new_access_code: Nuevo código de acceso
 
