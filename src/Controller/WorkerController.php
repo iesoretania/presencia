@@ -26,12 +26,28 @@ class WorkerController extends AbstractController
      */
     public function workerListAction(RecordRepository $recordRepository): Response
     {
-        $data = $recordRepository->findByDate(new \DateTime());
+        return $this->workerListDateAction($recordRepository, 'now');
+    }
+
+    /**
+     * @Route("/personal/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
+     */
+    public function workerListDateAction(RecordRepository $recordRepository, $date = null): Response
+    {
+        try {
+            $queryDate = new \DateTime($date);
+        } catch (\Exception $e) {
+            throw $this->createNotFoundException();
+        }
+
+        $data = $recordRepository->findByDate($queryDate);
 
         return $this->render('worker/list.html.twig', [
-            'data' => $data
+            'data' => $data,
+            'date' => $queryDate
         ]);
     }
+
 
     /**
      * @Route("/personal/nuevo", name="worker_new")

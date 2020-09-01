@@ -3,14 +3,19 @@
 {% trans_default_domain 'worker' %}
 
 {% block content %}
-    <h2>{{ 'title'|trans }}</h2>
+    <div class="form-group">
+        <h2>
+            {{ 'title'|trans }}
+            <label for="date-picker"></label><input type="date" id="date-picker" value="{{ date.format('Y-m-d') }}" data-url="{{ path('worker_list_date') }}">
+        </h2>
+    </div>
 
     <div class="table-responsive">
-        <table class="table table-hover table-striped table-bordered table-sm">
+        <table class="table table-hover table-striped table-bordered table-sm" id="workers">
             <thead>
                 <tr>
                     <th>{{ 'header.name'|trans }}</th>
-                    <th>{{ 'header.today'|trans }}</th>
+                    <th>{{ 'header.date'|trans({'%date%': date|date('format.date'|trans({}, 'general'))}) }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +49,7 @@
                     </tr>
                 {% endfor %}
                 {% if old_worker is not null %}
-                    {% if first %}{{ 'table.none'|trans }}{% endif %}
+                    {% if first %}<span class="text-muted">{{ 'table.none'|trans }}</span>{% endif %}
                     </td><tr>
                 {% endif %}
             </tbody>
@@ -53,4 +58,28 @@
 
     {{ m.link_button(path('worker_new'), 'plus', 'btn-success', 'button.new'|trans) }}
     {{ m.link_button(path('worker_teacher_import'), 'upload', 'btn-primary', 'button.teacher_import'|trans) }}
+    {{ m.link_button(path(''), 'upload', 'btn-primary', 'button.teacher_import'|trans) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var workers = document.getElementById("workers");
+        var datePicker = document.getElementById("date-picker");
+
+        function refreshList(e) {
+            function reqListener () {
+                var parser = new DOMParser();
+                var responseDoc = parser.parseFromString (this.responseText, "text/html");
+                workers.innerHTML = responseDoc.getElementById("workers").innerHTML;
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", datePicker.getAttribute('data-url') + '/' + e.target.value);
+            oReq.send();
+        }
+
+        datePicker.addEventListener('change', refreshList);
+    </script>
 {% endblock %}

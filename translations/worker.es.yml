@@ -10,7 +10,7 @@ title.access_code_form: Modificar código de acceso
 title.access_code_delete: Eliminar código de acceso
 
 header.name: Nombre completo
-header.today: Presencia registrada hoy
+header.date: Presencia registrada el %date%
 
 table.no_workers: No hay personal registrado
 table.none: Ninguna
