@@ -10,6 +10,7 @@
             {{ m.link_button(path('worker_list'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
             {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
             {% if worker.id %}{{ m.link_button(path('worker_delete', {'id': worker.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
+            {% if next %}{{ m.link_button(path('worker_form', {'id': next.id}), 'forward', 'btn-secondary', 'button.next'|trans) }}{% endif %}
         {{ m.end_button() }}
     {{ form_end(form) }}
 
@@ -43,7 +44,6 @@
         {{ form_widget(form_code) }}
         {{ m.start_button() }}
         {{ m.submit_button('add', 'plus', 'btn-success', 'button.submit_code'|trans) }}
-        {% if next %}{{ m.submit_button('next', 'forward', 'btn-secondary', 'button.next'|trans) }}{% endif %}
         {{ m.end_button() }}
         {{ form_end(form_code) }}
     {% endif %}

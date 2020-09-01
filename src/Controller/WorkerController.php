@@ -95,10 +95,7 @@ class WorkerController extends AbstractController
             try {
                 $accessCodeRepository->save($newAccessCode);
                 $this->addFlash('success', $translator->trans('message.code_saved', [], 'worker'));
-                if ($next && $request->request->has('next')) {
-                    return $this->redirectToRoute('worker_form', ['id' => $next->getId()]);
-                }
-                return $this->redirectToRoute('worker_list');
+                return $this->redirectToRoute('worker_form', ['id' => $worker->getId()]);
             } catch (\Exception $e) {
                 $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
             }

@@ -24,6 +24,10 @@
                         <td>{% if datum[1] %}{{ datum[1].inTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
                         <td>{% if datum[1] and datum[1].outTimestamp%}{{ datum[1].outTimestamp|date('format.datetime'|trans({}, 'general')) }}{% endif %}</td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">{{ 'header.no_workers'|trans }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

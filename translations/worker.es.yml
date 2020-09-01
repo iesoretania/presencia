@@ -14,6 +14,8 @@ header.last_name: Apellidos
 header.last_in: Últ. entrada
 header.last_out: Últ. salida
 
+header.no_workers: No hay personal registrado
+
 header.code: Código de acceso
 
 button.edit: Modificar
@@ -38,7 +40,7 @@ form.new_access_code: Nuevo código de acceso
 
 button.submit: Guardar cambios y volver
 button.submit_code: Registrar código
-button.next: Registrar código y ver siguiente
+button.next: Ver siguiente persona
 button.back: Volver al listado
 button.delete_confirm: Confirmar eliminación de la persona y sus datos
 
