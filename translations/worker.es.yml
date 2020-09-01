@@ -1,7 +1,10 @@
 title: Personal del centro
 title.form: Modificar datos personales
 title.new: Alta de personal
+title.delete: Eliminar persona
+
 title.teacher_import: Importación de profesorado desde Séneca
+
 title.codes: Códigos de acceso asociados
 title.access_code_form: Modificar código de acceso
 title.access_code_delete: Eliminar código de acceso
@@ -16,7 +19,7 @@ header.code: Código de acceso
 button.edit: Modificar
 button.codes: Códigos asociados
 button.records: Registros asociados
-button.delete: Eliminar
+button.delete: Eliminar persona
 
 button.new: Añadir persona
 button.import: Importar
@@ -37,6 +40,7 @@ button.submit: Guardar cambios y volver
 button.submit_code: Registrar código
 button.next: Registrar código y ver siguiente
 button.back: Volver al listado
+button.delete_confirm: Confirmar eliminación de la persona y sus datos
 
 button.back_to_worker: Volver a la persona
 button.access_code_submit: Guardar los cambios y volver a la persona
@@ -46,8 +50,12 @@ message.saved: 'Cambios guardados con éxito'
 message.code_saved: 'Código de acceso registrado con éxito'
 message.save_error: 'Ha ocurrido un error al guardar los cambios'
 
+message.deleted: 'Persona eliminada con éxito'
+message.delete_error: 'Ha ocurrido un error al eliminar la persona y sus datos asociados'
+
 message.access_code_deleted: 'Código de acceso eliminado con éxito'
 message.access_code_delete_error: 'Ha ocurrido un error al eliminar el código de acceso'
 
 text.teacher_import: 'El fichero generado debe tener al menos las columnas "Usuario IdEA" y "Empleado/a"'
+text.delete_warning: '¿Está seguro de que desea eliminar a %worker%? Se eliminarán todos los registros asociados. Esta operación no se puede deshacer.'
 text.access_code_delete_warning: '¿Está seguro de que desea eliminar el código "%code%"?'

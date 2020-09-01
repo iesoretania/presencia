@@ -108,4 +108,26 @@ class RecordRepository extends ServiceEntityRepository
 
         return array_chunk($result, 2);
     }
+
+    public function findByWorker(Worker $worker)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.worker = :worker')
+            ->setParameter('worker', $worker)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function deleteByWorker(Worker $worker, bool $flush = true)
+    {
+        $records = $this->findByWorker($worker);
+
+        foreach ($records as $record) {
+            $this->getEntityManager()->remove($record);
+        }
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

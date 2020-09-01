@@ -99,4 +99,27 @@ class EventRepository extends ServiceEntityRepository
 
         return array_chunk($result, 2);
     }
+
+
+    public function findByWorker(Worker $worker)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.worker = :worker')
+            ->setParameter('worker', $worker)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function deleteByWorker(Worker $worker, bool $flush = true)
+    {
+        $events = $this->findByWorker($worker);
+
+        foreach ($events as $event) {
+            $this->getEntityManager()->remove($event);
+        }
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

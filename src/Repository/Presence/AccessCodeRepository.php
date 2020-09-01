@@ -45,4 +45,17 @@ class AccessCodeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function deleteByWorker(Worker $worker, bool $flush = true)
+    {
+        $accessCodes = $this->findByWorker($worker);
+
+        foreach ($accessCodes as $accessCode) {
+            $this->getEntityManager()->remove($accessCode);
+        }
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

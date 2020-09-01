@@ -120,6 +120,33 @@ class WorkerController extends AbstractController
     }
 
     /**
+     * @Route("/personal/eliminar/{id}", name="worker_delete", requirements={"id":"\d+"})
+     */
+    public function workerDeleteAction(
+        Request $request,
+        WorkerRepository $workerRepository,
+        TranslatorInterface $translator,
+        Worker $worker
+    ): Response
+    {
+        if ($request->get('confirm', '') === 'ok') {
+            try {
+                $workerRepository->delete($worker);
+                $this->addFlash('success', $translator->trans('message.deleted', [], 'worker'));
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('message.delete_error', [], 'worker'));
+            }
+            return $this->redirectToRoute(
+                'worker_list'
+            );
+        }
+
+        return $this->render('worker/delete.html.twig', [
+            'worker' => $worker
+        ]);
+    }
+
+    /**
      * @Route("/personal/importar", name="worker_teacher_import")
      */
     public function workerTeacherImportAction(

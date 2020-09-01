@@ -3,20 +3,45 @@
 namespace App\Repository;
 
 use App\Entity\Worker;
+use App\Repository\Presence\AccessCodeRepository;
+use App\Repository\Presence\RecordRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class WorkerRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $eventRepository;
+    private $accessCodeRepository;
+    private $recordRepository;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        EventRepository $eventRepository,
+        AccessCodeRepository $accessCodeRepository,
+        RecordRepository $recordRepository
+    ) {
         parent::__construct($registry, Worker::class);
+        $this->eventRepository = $eventRepository;
+        $this->accessCodeRepository = $accessCodeRepository;
+        $this->recordRepository = $recordRepository;
     }
 
     public function save(Worker $worker): void
     {
         $this->getEntityManager()->persist($worker);
         $this->getEntityManager()->flush();
+    }
+
+    public function delete(Worker $worker, $flush = true)
+    {
+        $this->accessCodeRepository->deleteByWorker($worker, false);
+        $this->recordRepository->deleteByWorker($worker, false);
+        $this->eventRepository->deleteByWorker($worker, false);
+        $this->getEntityManager()->remove($worker);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     public function persist(Worker $worker): void
