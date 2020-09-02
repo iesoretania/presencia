@@ -3,7 +3,7 @@ security:
     providers:
         db:
             entity:
-                class: 'App\Entity\Manager'
+                class: 'App\Entity\User'
                 property: 'username'
 
     encoders:

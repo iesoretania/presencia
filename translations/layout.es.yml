@@ -2,6 +2,7 @@ title.welcome: ¡Bienvenido!
 hint.close: Cerrar
 hint.toggle: "Plegar o desplegar navegación"
 
+menu.name.login: Identificarse
 menu.name.logout: Desconectar
 menu.name.profile: Preferencias
 menu.name.exit_impersonation: Volver al usuario normal

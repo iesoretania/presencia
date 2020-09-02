@@ -11,6 +11,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    const ROLE_DISPLAY = 0;
+    const ROLE_REPORTER = 1;
+    const ROLE_MANAGER = 2;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -38,16 +42,10 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @var bool
+     * @ORM\Column(type="integer")
+     * @var int
      */
-    private $manager = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @var bool
-     */
-    private $reporter = false;
+    private $profile = 0;
 
     /**
      * @return int
@@ -112,53 +110,44 @@ class User implements UserInterface
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isManager(): ?bool
+    public function getProfile(): int
     {
-        return $this->manager;
+        return $this->profile;
     }
 
     /**
-     * @param bool $manager
+     * @param int $profile
      * @return User
      */
-    public function setManager(bool $manager): User
+    public function setProfile(int $profile): User
     {
-        $this->manager = $manager;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isReporter(): ?bool
-    {
-        return $this->reporter;
-    }
-
-    /**
-     * @param bool $reporter
-     * @return User
-     */
-    public function setReporter(bool $reporter): User
-    {
-        $this->reporter = $reporter;
+        $this->profile = $profile;
         return $this;
     }
 
     public function getRoles()
     {
-        return ['ROLE_MANAGER'];
+        $roles = ['ROLE_USER'];
+
+        switch ($this->getProfile()) {
+            case self::ROLE_REPORTER:
+                $roles[] = 'ROLE_REPORTER';
+                break;
+            case self::ROLE_MANAGER:
+                $roles[] = 'ROLE_MANAGER';
+                break;
+        }
+
+        return $roles;
     }
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
     }
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
 }
