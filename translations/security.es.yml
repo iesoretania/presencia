@@ -1,0 +1,9 @@
+form.login.submit: ACCEDER A LA APLICACIÓN
+form.login.title: Introduzca sus credenciales de acceso
+form.login.username: Nombre de usuario
+form.login.password: Contraseña
+form.login.password.reset: ¿Olvidó la contraseña?
+form.login.footer.first: Esta aplicación es
+form.login.footer.link.caption: software libre
+form.login.footer.second: con licencia
+form.login.footer.link.agpl_caption: AGPL3

@@ -13,12 +13,16 @@ use App\Repository\Presence\AccessCodeRepository;
 use App\Repository\Presence\RecordRepository;
 use App\Repository\WorkerRepository;
 use App\Service\TeacherImportService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @IsGranted("ROLE_MANAGER")
+ */
 class WorkerController extends AbstractController
 {
     /**

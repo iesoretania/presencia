@@ -8,3 +8,4 @@ twig:
     globals:
         app_name:           '%env(APP_NAME)%'
         app_organization:   '%env(APP_ORGANIZATION)%'
+        app_repository:     '%env(APP_REPOSITORY)%'
