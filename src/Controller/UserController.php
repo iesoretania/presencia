@@ -66,7 +66,9 @@ class UserController extends AbstractController
     ): Response
     {
         if ($user->getId()) {
-            $form = $this->createForm(UserEditType::class, $user);
+            $form = $this->createForm(UserEditType::class, $user, [
+                'locked_profile' => $user === $this->getUser()
+            ]);
         } else {
             $form = $this->createForm(UserNewType::class, $user);
         }

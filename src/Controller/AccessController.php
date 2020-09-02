@@ -16,8 +16,12 @@ class AccessController extends AbstractController
     /**
      * @Route("/acceso", name="access_code")
      */
-    public function accessAction(Request $request, ProcessManualCodeService $processManualCodeService)
+    public function accessAction(Request $request, ProcessManualCodeService $processManualCodeService, $forceUserForCode)
     {
+        if ($forceUserForCode && !$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('login');
+        }
+
         $code = new ManualCode();
         $form = $this->createForm(ManualCodeType::class, $code);
         $form->handleRequest($request);

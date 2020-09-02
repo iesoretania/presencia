@@ -28,7 +28,8 @@ class UserEditType extends AbstractType
                     'text.role_manager' => User::ROLE_MANAGER,
                 ],
                 'expanded' => true,
-                'required' => true
+                'required' => true,
+                'disabled' => $options['locked_profile']
             ]);
     }
 
@@ -37,6 +38,7 @@ class UserEditType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => User::class,
+                'locked_profile' => false,
                 'translation_domain' => 'user'
             ]);
     }

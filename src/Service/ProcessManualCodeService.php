@@ -10,10 +10,9 @@ class ProcessManualCodeService
 {
     private $accessCodeRepository;
     private $eventRepository;
-    /**
-     * @var RecordRepository
-     */
     private $recordRepository;
+
+    private $minWaitTime;
 
     /**
      * ProcessManualCode constructor.
@@ -21,11 +20,13 @@ class ProcessManualCodeService
     public function __construct(
         AccessCodeRepository $accessCodeRepository,
         EventRepository $eventRepository,
-        RecordRepository $recordRepository
+        RecordRepository $recordRepository,
+        int $minWaitTime
     ) {
         $this->accessCodeRepository = $accessCodeRepository;
         $this->eventRepository = $eventRepository;
         $this->recordRepository = $recordRepository;
+        $this->minWaitTime = $minWaitTime;
     }
 
     public function processCode(string $code, \DateTime $timestamp, string $reader = null): array
@@ -52,7 +53,7 @@ class ProcessManualCodeService
             $record = $this->recordRepository->createNewRecord($worker, $timestamp, 'manual', null, $reader);
         } else {
             // si ha transcurrido menos de 5 minutos desde el último evento, ignorar
-            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < 0*60) {
+            if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < $this->minWaitTime) {
                 return [
                     'result' => 'ignore'
                 ];

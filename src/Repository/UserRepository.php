@@ -14,6 +14,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('m')
+            ->select('COUNT(m)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function save(User $manager): void
     {
         $this->getEntityManager()->persist($manager);

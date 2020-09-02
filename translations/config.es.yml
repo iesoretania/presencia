@@ -1,0 +1,9 @@
+title: Configuración inicial
+
+form.username: Nombre de usuario del administrador
+form.name: Descripción del administrador
+
+form.new_password: Contraseña
+form.repeat_new_password: Repita contraseña
+
+button.submit: Crear usuario
