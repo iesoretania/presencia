@@ -4,7 +4,7 @@ hint.toggle: "Plegar o desplegar navegación"
 
 menu.name.login: Identificarse
 menu.name.logout: Desconectar
-menu.name.profile: Preferencias
+menu.text.user: Conectado como %user%
 menu.name.exit_impersonation: Volver al usuario normal
 
 menu.name.dashboard: 'Estado actual'

@@ -9,7 +9,7 @@
         {{ m.start_button() }}
             {{ m.link_button(path('user'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
             {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
-            {% if user.id %}{{ m.link_button(path('worker_delete', {'id': user.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
+            {% if user.id and user != app.user %}{{ m.link_button(path('user_delete', {'id': user.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
         {{ m.end_button() }}
     {{ form_end(form) }}
 {% endblock %}
