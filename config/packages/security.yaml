@@ -10,6 +10,9 @@ security:
         App\Entity\User:
             algorithm: auto
 
+    role_hierarchy:
+        ROLE_MANAGER:   ROLE_REPORTER
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
