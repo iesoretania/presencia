@@ -6,13 +6,13 @@ use App\Entity\Presence\AccessCode;
 use App\Entity\Worker;
 use App\Form\AccessCodeEditType;
 use App\Form\AccessCodeNewType;
+use App\Form\ImportType;
 use App\Form\Model\FileImport;
-use App\Form\TeacherImportType;
 use App\Form\WorkerEditType;
 use App\Repository\Presence\AccessCodeRepository;
 use App\Repository\Presence\RecordRepository;
 use App\Repository\WorkerRepository;
-use App\Service\TeacherImportService;
+use App\Service\ImportService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -164,22 +164,22 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/importar", name="worker_teacher_import")
+     * @Route("/personal/importar", name="worker_import")
      */
-    public function workerTeacherImportAction(
+    public function workerImportAction(
         Request $request,
         TranslatorInterface $translator,
-        TeacherImportService $teacherImportService
+        ImportService $importService
     ): Response
     {
         $csvFile = new FileImport();
 
-        $form = $this->createForm(TeacherImportType::class, $csvFile);
+        $form = $this->createForm(ImportType::class, $csvFile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $teacherImportService->importFromFile($csvFile->file->getPathname());
+                $importService->importFromFile($csvFile->file->getPathname());
 
                 return $this->redirectToRoute('worker_list');
             } catch (\RuntimeException $e) {
@@ -189,7 +189,7 @@ class WorkerController extends AbstractController
             }
         }
 
-        return $this->render('worker/teacher_import_form.html.twig', [
+        return $this->render('worker/import_form.html.twig', [
             'form' => $form->createView()
         ]);
     }

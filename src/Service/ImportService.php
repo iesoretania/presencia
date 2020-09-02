@@ -6,7 +6,7 @@ use App\Entity\Worker;
 use App\Repository\WorkerRepository;
 use League\Csv\Reader;
 
-class TeacherImportService
+class ImportService
 {
     /**
      * @var WorkerRepository

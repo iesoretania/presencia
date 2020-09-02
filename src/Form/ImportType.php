@@ -8,13 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TeacherImportType extends AbstractType
+class ImportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('file', FileType::class, [
-                'label' => 'form.teacher_csv',
+                'label' => 'form.csv',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'form.select_file_placeholder'

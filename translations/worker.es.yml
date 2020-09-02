@@ -3,7 +3,7 @@ title.form: Modificar datos personales
 title.new: Alta de personal
 title.delete: Eliminar persona
 
-title.teacher_import: Importación de profesorado desde Séneca
+title.import: Importación de personal desde Séneca
 
 title.codes: Códigos de acceso asociados
 title.access_code_form: Modificar código de acceso
@@ -24,14 +24,14 @@ button.delete: Eliminar persona
 
 button.new: Añadir persona
 button.import: Importar
-button.teacher_import: Importar profesorado desde Séneca
+button.worker_import: Importar personal desde Séneca
 
 form.first_name: Nombre
 form.last_name: Apellidos
 form.internal_code: Usuario IdEA
 form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 
-form.teacher_csv: Fichero .csv de profesorado
+form.csv: Fichero .csv de personal
 
 table.no_codes: No hay códigos registrados
 form.access_code: Código de acceso
@@ -59,13 +59,15 @@ message.delete_error: 'Ha ocurrido un error al eliminar la persona y sus datos a
 message.access_code_deleted: 'Código de acceso eliminado con éxito'
 message.access_code_delete_error: 'Ha ocurrido un error al eliminar el código de acceso'
 
-text.teacher_import: >
-  Para generar el fichero, desde el perfil "Dirección" seleccionar la ruta "Personal > Personal del centro".
-  En los botones de la barra superior, seleccionar "Exportar datos".
+text.import: >
+    Para generar el fichero, desde el perfil "Dirección" seleccionar la ruta "Personal > Personal del centro".
+    Seleccione "Personal docente" o "Personal no docente" en el desplegable.
 
-  Seleccionar "Fichero CSV" en "Exportar los datos al formato" e introducir las letras que aparecen en el dibujo en “Introduzca el texto de la imagen”.
+    En los botones de la barra superior, seleccionar "Exportar datos".
 
-  Seleccionar al menos las columnas "Usuario IdEA" y "Empleado/a" (se pueden dejar de más) y hacer clic en "Aceptar".
+    Seleccione "Fichero CSV" en "Exportar los datos al formato" e introduzca las letras que aparecen en el dibujo en “Introduzca el texto de la imagen”.
+
+    Seleccione al menos las columnas "Usuario IdEA" y "Empleado/a" (se pueden dejar de más) y hacer clic en "Aceptar".
 
 text.delete_warning: '¿Está seguro de que desea eliminar a %worker%? Se eliminarán todos los registros asociados. Esta operación no se puede deshacer.'
 text.access_code_delete_warning: '¿Está seguro de que desea eliminar el código "%code%"?'
