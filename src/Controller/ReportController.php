@@ -5,15 +5,20 @@ namespace App\Controller;
 use App\Form\DateRangeType;
 use App\Form\Model\DateRange;
 use App\Service\SpreadsheetGeneratorService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @IsGranted("ROLE_MANAGER")
+ * @Route("/informe")
+ */
 class ReportController extends AbstractController
 {
     /**
-     * @Route("/informe/rango", name="report_record_date_range_form")
+     * @Route("/rango", name="report_record_date_range_form")
      */
     public function recordRangeDownloadAction(
         Request $request,

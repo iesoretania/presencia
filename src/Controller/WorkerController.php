@@ -22,11 +22,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @IsGranted("ROLE_MANAGER")
+ * @Route("/personal")
  */
 class WorkerController extends AbstractController
 {
     /**
-     * @Route("/personal", name="worker")
+     * @Route("/", name="worker")
      */
     public function workerListAction(RecordRepository $recordRepository): Response
     {
@@ -34,7 +35,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
+     * @Route("/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
      */
     public function workerListDateAction(RecordRepository $recordRepository, $date = null): Response
     {
@@ -54,7 +55,7 @@ class WorkerController extends AbstractController
 
 
     /**
-     * @Route("/personal/nuevo", name="worker_new")
+     * @Route("/nuevo", name="worker_new")
      */
     public function workerNewAction(
         Request $request,
@@ -75,7 +76,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/{id}", name="worker_form", requirements={"id":"\d+"})
+     * @Route("/{id}", name="worker_form", requirements={"id":"\d+"})
      */
     public function workerFormAction(
         Request $request,
@@ -137,7 +138,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/eliminar/{id}", name="worker_delete", requirements={"id":"\d+"})
+     * @Route("/eliminar/{id}", name="worker_delete", requirements={"id":"\d+"})
      */
     public function workerDeleteAction(
         Request $request,
@@ -164,7 +165,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/importar", name="worker_import")
+     * @Route("/importar", name="worker_import")
      */
     public function workerImportAction(
         Request $request,
@@ -224,7 +225,7 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/personal/codigo/eliminar/{id}", name="worker_access_code_delete", requirements={"id":"\d+"})
+     * @Route("/codigo/eliminar/{id}", name="worker_access_code_delete", requirements={"id":"\d+"})
      */
     public function workerAccessCodeDeleteAction(
         Request $request,
