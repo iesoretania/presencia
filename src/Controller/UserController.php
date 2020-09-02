@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Presence\AccessCode;
+use App\Entity\User;
 use App\Entity\Worker;
 use App\Form\AccessCodeEditType;
-use App\Form\AccessCodeNewType;
 use App\Form\ImportType;
 use App\Form\Model\FileImport;
-use App\Form\WorkerEditType;
+use App\Form\UserEditType;
+use App\Form\UserNewType;
 use App\Repository\Presence\AccessCodeRepository;
-use App\Repository\Presence\RecordRepository;
+use App\Repository\UserRepository;
 use App\Repository\WorkerRepository;
 use App\Service\ImportService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -18,121 +19,83 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @IsGranted("ROLE_MANAGER")
+ * @Route("/usuario")
  */
-class WorkerController extends AbstractController
+class UserController extends AbstractController
 {
     /**
-     * @Route("/personal", name="worker")
+     * @Route("/", name="user")
      */
-    public function workerListAction(RecordRepository $recordRepository): Response
+    public function workerListDateAction(UserRepository $userRepository): Response
     {
-        return $this->workerListDateAction($recordRepository, 'now');
-    }
+        $users = $userRepository->findAllSorted();
 
-    /**
-     * @Route("/personal/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
-     */
-    public function workerListDateAction(RecordRepository $recordRepository, $date = null): Response
-    {
-        try {
-            $queryDate = new \DateTime($date);
-        } catch (\Exception $e) {
-            throw $this->createNotFoundException();
-        }
-
-        $data = $recordRepository->findByDate($queryDate);
-
-        return $this->render('worker/list.html.twig', [
-            'data' => $data,
-            'date' => $queryDate
+        return $this->render('user/list.html.twig', [
+            'users' => $users
         ]);
     }
 
 
     /**
-     * @Route("/personal/nuevo", name="worker_new")
+     * @Route("/nuevo", name="user_new")
      */
-    public function workerNewAction(
+    public function userNewAction(
         Request $request,
-        WorkerRepository $workerRepository,
-        AccessCodeRepository $accessCodeRepository,
-        TranslatorInterface $translator
+        UserRepository $userRepository,
+        TranslatorInterface $translator,
+        UserPasswordEncoderInterface $passwordEncoder
     ): Response
     {
-        $worker = new Worker();
+        $user = new User();
 
-        return $this->workerFormAction(
+        return $this->userFormAction(
             $request,
-            $workerRepository,
-            $accessCodeRepository,
+            $userRepository,
             $translator,
-            $worker
+            $passwordEncoder,
+            $user
         );
     }
 
     /**
-     * @Route("/personal/{id}", name="worker_form", requirements={"id":"\d+"})
+     * @Route("/{id}", name="user_form", requirements={"id":"\d+"})
      */
-    public function workerFormAction(
+    public function userFormAction(
         Request $request,
-        WorkerRepository $workerRepository,
-        AccessCodeRepository $accessCodeRepository,
+        UserRepository $userRepository,
         TranslatorInterface $translator,
-        Worker $worker
+        UserPasswordEncoderInterface $passwordEncoder,
+        User $user
     ): Response
     {
-        $form = $this->createForm(WorkerEditType::class, $worker);
-        $form->handleRequest($request);
-
-        if ($worker->getId()) {
-            $next = $workerRepository->findNextOrNull($worker);
+        if ($user->getId()) {
+            $form = $this->createForm(UserEditType::class, $user);
         } else {
-            $next = null;
+            $form = $this->createForm(UserNewType::class, $user);
         }
-
-        $newAccessCode = new AccessCode();
-        $newAccessCode
-            ->setWorker($worker);
-
-        $newAccessCodeForm = $this->createForm(AccessCodeNewType::class, $newAccessCode);
-        $newAccessCodeForm->handleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $workerRepository->save($worker);
-                $this->addFlash('success', $translator->trans('message.saved', [], 'worker'));
-                return $this->redirectToRoute('worker');
+                if (!$user->getId()) {
+                    $user->setPassword($passwordEncoder->encodePassword($user, $form->get('new_password')->getData()));
+                }
+                $userRepository->save($user);
+                $this->addFlash('success', $translator->trans('message.saved', [], 'user'));
+                return $this->redirectToRoute('user');
             } catch (\Exception $e) {
-                $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
+                $this->addFlash('error', $translator->trans('message.save_error', [], 'user'));
             }
         }
 
-        if ($newAccessCodeForm->isSubmitted() && $newAccessCodeForm->isValid()) {
-            try {
-                $accessCodeRepository->save($newAccessCode);
-                $this->addFlash('success', $translator->trans('message.code_saved', [], 'worker'));
-                return $this->redirectToRoute('worker_form', ['id' => $worker->getId()]);
-            } catch (\Exception $e) {
-                $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
-            }
-        }
-
-        if ($worker->getId()) {
-            $accessCodes = $accessCodeRepository->findByWorker($worker);
-        } else {
-            $accessCodes = [];
-        }
-
-        return $this->render('worker/form.html.twig', [
+        return $this->render('user/form.html.twig', [
             'form' => $form->createView(),
-            'form_code' => $newAccessCodeForm->createView(),
-            'worker' => $worker,
-            'next' => $next,
-            'access_codes' => $accessCodes
+            'user' => $user
         ]);
     }
 

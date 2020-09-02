@@ -8,7 +8,7 @@
     {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ m.start_button() }}
-        {{ m.link_button(path('worker_list'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+        {{ m.link_button(path('worker'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
         {{ m.submit_button('import', 'upload', 'btn-success', 'button.import'|trans) }}
         {{ m.end_button() }}
     {{ form_end(form) }}

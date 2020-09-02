@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'user' %}
+
+{% block content %}
+    <h2>{{ (user.id ? 'title.form' : 'title.new')|trans }}</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ m.start_button() }}
+            {{ m.link_button(path('user'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+            {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
+            {% if user.id %}{{ m.link_button(path('worker_delete', {'id': user.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
+        {{ m.end_button() }}
+    {{ form_end(form) }}
+{% endblock %}

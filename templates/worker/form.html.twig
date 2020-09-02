@@ -7,7 +7,7 @@
     {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ m.start_button() }}
-            {{ m.link_button(path('worker_list'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+            {{ m.link_button(path('worker'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
             {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
             {% if worker.id %}{{ m.link_button(path('worker_delete', {'id': worker.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
             {% if next %}{{ m.link_button(path('worker_form', {'id': next.id}), 'forward', 'btn-secondary', 'button.next'|trans) }}{% endif %}

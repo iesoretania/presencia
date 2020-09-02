@@ -27,7 +27,8 @@ class ImportType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => FileImport::class,
-                'translation_domain' => 'worker'
+                'translation_domain' => 'worker',
+                'csrf_protection' => false
             ]);
     }
 }

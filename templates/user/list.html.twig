@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'user' %}
+
+{% block content %}
+    <div class="form-group">
+        <h2>
+            {{ 'title'|trans }}
+        </h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered table-sm" id="workers">
+            <thead>
+                <tr>
+                    <th>{{ 'header.username'|trans }}</th>
+                    <th>{{ 'header.name'|trans }}</th>
+                    <th>{{ 'header.profile'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                {% set url = path('user_form', {'id': user.id}) %}
+                <tr>
+                    <td><a href="{{ url }}">{{ user.username }}</a></td>
+                    <td><a href="{{ url }}">{{ user.name }}</a></td>
+                    <td>
+                        {% if user.profile == constant('App\\Entity\\User::ROLE_MANAGER') %}
+                            <span class="badge badge-success">
+                                {{ 'text.role_manager'|trans }}
+                            </span>
+                        {% endif %}
+                        {% if user.profile == constant('App\\Entity\\User::ROLE_REPORTER') %}
+                            <span class="badge badge-info">
+                                {{ 'text.role_reporter'|trans }}
+                            </span>
+                        {% endif %}
+                        {% if user.profile == constant('App\\Entity\\User::ROLE_DISPLAY') %}
+                            <span class="badge badge-light">
+                                {{ 'text.role_display'|trans }}
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">{{ 'text.no_users'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ m.link_button(path('user_new'), 'plus', 'btn-success', 'button.new'|trans) }}
+{% endblock %}
