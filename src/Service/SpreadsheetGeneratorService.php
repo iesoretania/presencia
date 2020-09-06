@@ -8,11 +8,14 @@ use App\Repository\EventRepository;
 use App\Repository\Presence\RecordRepository;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Yectep\PhpSpreadsheetBundle\Factory;
 
 class SpreadsheetGeneratorService
@@ -20,15 +23,18 @@ class SpreadsheetGeneratorService
     private $eventRepository;
     private $spreadSheetFactory;
     private $recordRepository;
+    private $translator;
 
     public function __construct(
         EventRepository $eventRepository,
         Factory $spreadSheetFactory,
-        RecordRepository $recordRepository
+        RecordRepository $recordRepository,
+        TranslatorInterface $translator
     ) {
         $this->eventRepository = $eventRepository;
         $this->spreadSheetFactory = $spreadSheetFactory;
         $this->recordRepository = $recordRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -113,6 +119,10 @@ class SpreadsheetGeneratorService
                 $sheet = new Worksheet();
                 $spreadsheet->addSheet($sheet);
             }
+            $sheet->setCellValue('A1', $this->translator->trans('header.last_name', [], 'spreadsheet'));
+            $sheet->setCellValue('B1', $this->translator->trans('header.first_name', [], 'spreadsheet'));
+            $sheet->setCellValue('C1', $this->translator->trans('header.date', [], 'spreadsheet'));
+
             $sheet->setTitle($timeString);
 
             $pageSetup = $sheet->getPageSetup();
@@ -123,8 +133,9 @@ class SpreadsheetGeneratorService
             $pageSetup->setFitToWidth(1);
             $pageSetup->setFitToHeight(0);
 
-            $row = 0;
-            $col = 3;
+            $row = 1;
+            $col = 4;
+            $maxCol = 4;
             foreach ($data as $item) {
                 if ($item instanceof Worker) {
                     $row++;
@@ -143,6 +154,12 @@ class SpreadsheetGeneratorService
                     }
                     $col += 2;
                 }
+
+                if ($col > $maxCol) {
+                    $sheet->setCellValueByColumnAndRow($maxCol, 1, $this->translator->trans('header.in', [], 'spreadsheet'));
+                    $sheet->setCellValueByColumnAndRow($maxCol + 1, 1, $this->translator->trans('header.out', [], 'spreadsheet'));
+                    $maxCol += 2;
+                }
             }
 
             $column = $sheet->getColumnDimension('A');
@@ -156,6 +173,40 @@ class SpreadsheetGeneratorService
             $column = $sheet->getColumnDimension('C');
             if ($column) {
                 $column->setAutoSize(true);
+            }
+
+            $styleArray = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => Border::BORDER_MEDIUM
+                    ],
+                    'inside' => [
+                        'borderStyle' => Border::BORDER_THIN
+                    ],
+                ],
+            ];
+
+            $sheet->getStyleByColumnAndRow(1, 1, $maxCol - 1, 1)->applyFromArray($styleArray);
+
+            $sheet->getStyle('A1:B' . $row)->applyFromArray($styleArray);
+            $sheet->getStyle('C1:C' . $row)->applyFromArray($styleArray);
+
+            $col = 4;
+            while ($col < $maxCol) {
+                $sheet->getStyleByColumnAndRow($col, 1, $col + 1, $row)->applyFromArray($styleArray);
+                $col += 2;
+            }
+
+            $sheet->getStyleByColumnAndRow(1, 1, $maxCol - 1, 1)->getFill()
+                ->setFillType(Fill::FILL_SOLID)
+                ->getStartColor()->setARGB('FFA0A0A0');
+
+            $i = 2;
+            while ($i <= $row) {
+                $sheet->getStyleByColumnAndRow(1, $i, $maxCol - 1, $i)->getFill()
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB(($i % 2 === 1) ? 'FFE0E0E0' : 'FFFFFFFF');
+                $i++;
             }
 
             $date->add($dateInterval);
