@@ -9,9 +9,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav animate side-nav">
-            {{ ml.navbar_item('dashboard', 'tachometer-alt', 'frontpage') }}
             {% if not app_force_user_for_code or app.user %}
-            {{ ml.navbar_item('access', 'key', 'access_code') }}
+            {{ ml.navbar_item('access', 'key', 'frontpage') }}
             {% endif %}
             {{ ml.navbar_item('current_state', 'eye', 'current_state') }}
             {% if is_granted("ROLE_MANAGER") %}

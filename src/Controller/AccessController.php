@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccessController extends AbstractController
 {
     /**
+     * @Route("/", name="frontpage")
      * @Route("/acceso", name="access_code")
      */
     public function accessAction(Request $request, ProcessManualCodeService $processManualCodeService, $forceUserForCode)
