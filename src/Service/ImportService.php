@@ -40,13 +40,21 @@ class ImportService
             $worker = $this->workerRepository->findOneByInternalCode($idEA);
 
             if (null === $worker) {
-                $worker = new Worker();
                 $fullName = explode(', ', $workerName);
-                $worker
-                    ->setLastName($fullName[0])
-                    ->setFirstName($fullName[1])
-                    ->setInternalCode($record['Usuario IdEA']);
-                $this->workerRepository->persist($worker);
+                $worker = $this->workerRepository->findOneByFirstAndLastName($fullName[1], $fullName[0]);
+
+                if (null === $worker) {
+                    $worker = new Worker();
+                    $worker
+                        ->setLastName($fullName[0])
+                        ->setFirstName($fullName[1]);
+
+                    if ($idEA) {
+                        $worker->setInternalCode($record['Usuario IdEA']);
+                    }
+                    
+                    $this->workerRepository->persist($worker);
+                }
             }
         }
 

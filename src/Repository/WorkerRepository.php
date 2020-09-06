@@ -85,4 +85,15 @@ class WorkerRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getOneOrNullResult();
     }
+
+    public function findOneByFirstAndLastName(string $firstName, string $lastName)
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.firstName = :first_name')
+            ->andWhere('w.lastName = :last_name')
+            ->setParameter('first_name', $firstName)
+            ->setParameter('last_name', $lastName)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
