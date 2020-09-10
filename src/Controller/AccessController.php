@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ManualCodeType;
 use App\Form\Model\ManualCode;
+use App\Service\AccentedCharacterService;
 use App\Service\ProcessManualCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,7 +44,10 @@ class AccessController extends AbstractController
     /**
      * @Route("/code", name="access_remote_code")
      */
-    public function remoteAccessAction(Request $request, ProcessManualCodeService $processManualCodeService)
+    public function remoteAccessAction(
+        Request $request,
+        ProcessManualCodeService $processManualCodeService,
+        AccentedCharacterService $accentedCharacterService)
     {
         if ($request->get('q') !== null) {
             $data = $processManualCodeService->processCode($request->get('q'), new \DateTime(), $request->get('o'));
@@ -53,7 +57,9 @@ class AccessController extends AbstractController
             ];
 
             if (isset($data['worker'])) {
-                $result['worker'] = $data['worker']->getFirstName() . ' ' . $data['worker']->getLastName();
+                $result['worker'] = $accentedCharacterService->removeAccents(
+                    $data['worker']->getFirstName() . ' ' . $data['worker']->getLastName()
+                );
             }
             return new JsonResponse($result);
         }
