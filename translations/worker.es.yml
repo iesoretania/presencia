@@ -37,6 +37,10 @@ form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 
 form.csv: Fichero .csv de personal
 
+form.worker: Persona
+form.in_timestamp: Hora de entrada
+form.out_timestamp: Hora de salida
+
 table.no_codes: No hay códigos registrados
 form.access_code: Código de acceso
 form.new_access_code: Nuevo código de acceso
@@ -46,10 +50,13 @@ button.submit_code: Registrar código
 button.next: Ver siguiente persona
 button.back: Volver al listado
 button.delete_confirm: Confirmar eliminación de la persona y sus datos
+button.delete_record: Eliminar registro (no se pide confirmación)
 
 button.back_to_worker: Volver a la persona
 button.access_code_submit: Guardar los cambios y volver a la persona
 button.access_code_delete_confirm: Confirmar borrado del código
+
+button.new_record: Nuevo registro
 
 message.saved: 'Cambios guardados con éxito'
 message.code_saved: 'Código de acceso registrado con éxito'
@@ -59,6 +66,8 @@ message.bad_format: 'El fichero no contiene la estructura necesaria. Revise las 
 
 message.deleted: 'Persona eliminada con éxito'
 message.delete_error: 'Ha ocurrido un error al eliminar la persona y sus datos asociados'
+
+message.record_deleted: 'Registro eliminado con éxito'
 
 message.access_code_deleted: 'Código de acceso eliminado con éxito'
 message.access_code_delete_error: 'Ha ocurrido un error al eliminar el código de acceso'
@@ -72,6 +81,11 @@ text.import: >
     Seleccione "Fichero CSV" en "Exportar los datos al formato" e introduzca las letras que aparecen en el dibujo en “Introduzca el texto de la imagen”.
 
     Seleccione al menos las columnas "Usuario IdEA" y "Empleado/a" (se pueden dejar de más) y hacer clic en "Aceptar".
+
+text.current_date_warning: >
+    ¡Atención! Modificar los registros de la fecha actual puede provocar que una entrada o salida
+    nueva de la persona se registre incorrectamente. No modifique nada si no tiene la seguridad de que
+    no se va a registrar ninguna entrada o salida en lo que queda de día.
 
 text.delete_warning: '¿Está seguro de que desea eliminar a %worker%? Se eliminarán todos los registros asociados. Esta operación no se puede deshacer.'
 text.access_code_delete_warning: '¿Está seguro de que desea eliminar el código "%code%"?'

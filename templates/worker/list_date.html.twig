@@ -8,29 +8,38 @@
     <table class="table table-bordered table-striped table-hover table-sm w-50">
         <thead>
         <tr>
+            <th></th>
             <th>{{ 'header.in'|trans }}</th>
             <th>{{ 'header.out'|trans }}</th>
         </tr>
         </thead>
         <tbody>
+        {% set count = 0 %}
         {% for record in records %}
+            {% set url = path('worker_record_form', {'id': record.id}) %}
+            {% set count = count + 1 %}
             <tr>
+                <td>{{ count }}</td>
                 <td>
-                    {{ record.inTimestamp|date('format.time'|trans({}, 'general')) }}
+                    <a href="{{ url }}">{{ record.inTimestamp|date('format.time'|trans({}, 'general')) }}</a>
                 </td>
                 <td>
+                    <a href="{{ url }}">
                     {% if record.outTimestamp %}
                         {{ record.outTimestamp|date('format.time'|trans({}, 'general')) }}
                     {% else %}
                         {{ 'table.none'|trans }}
                     {% endif %}
+                    </a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">{{ 'table.no_records'|trans }}</td>
+                <td colspan="3">{{ 'table.no_records'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {{ m.link_button(path('worker_list_date', {'date': date|date('format.date_parameter'|trans({}, 'general'))}), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+    {{ m.link_button(path('worker_record_new', {'id': worker.id, 'y': date|date('Y'), 'm': date|date('m'), 'd': date|date('d')}), 'plus', 'btn-success', 'button.new_record'|trans) }}
 {% endblock %}

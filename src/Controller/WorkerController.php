@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Presence\AccessCode;
+use App\Entity\Presence\Record;
 use App\Entity\Worker;
 use App\Form\AccessCodeEditType;
 use App\Form\AccessCodeNewType;
+use App\Form\ChangeRecordType;
 use App\Form\ImportType;
 use App\Form\Model\FileImport;
 use App\Form\WorkerEditType;
@@ -274,6 +276,78 @@ class WorkerController extends AbstractController
 
         return $this->render('worker/access_code_delete.html.twig', [
             'access_code' => $accessCode
+        ]);
+    }
+
+    /**
+     * @Route("/registro/nuevo/{id}/{y}-{m}-{d}", name="worker_record_new",
+     *     requirements={"id":"\d+","y":"\d{4}","m":"\d{1,2}","d":"\d{1,2}"})
+     */
+    public function workerRecordNewAction(
+        Request $request,
+        RecordRepository $recordRepository,
+        TranslatorInterface $translator,
+        Worker $worker,
+        int $y,
+        int $m,
+        int $d
+    ): Response
+    {
+        $realDate = new \DateTime();
+        $realDate->setDate($y, $m, $d);
+        $record = $recordRepository->createNewRecord($worker, $realDate, $this->getUser()->getUsername());
+        return $this->workerRecordFormAction($request, $recordRepository, $translator, $record);
+    }
+
+    /**
+     * @Route("/registro/{id}", name="worker_record_form", requirements={"id":"\d+"})
+     */
+    public function workerRecordFormAction(
+        Request $request,
+        RecordRepository $recordRepository,
+        TranslatorInterface $translator,
+        Record $record
+    ): Response
+    {
+        $form = $this->createForm(ChangeRecordType::class, $record);
+
+        $originalDate = clone $record->getInTimestamp();
+        $y = (int) $originalDate->format('Y');
+        $m = (int) $originalDate->format('m');
+        $d = (int) $originalDate->format('d');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if ($request->get('save') === '') {
+                    $record->getInTimestamp()->setDate($y, $m, $d);
+                    if ($record->getOutTimestamp()) {
+                        $record->getOutTimestamp()->setDate($y, $m, $d);
+                    }
+
+                    $record->setSource($this->getUser()->getUsername());
+                    $recordRepository->save($record);
+
+                    $this->addFlash('success', $translator->trans('message.saved', [], 'worker'));
+                } else {
+                    // eliminar registro
+                    $recordRepository->delete($record);
+                    $this->addFlash('success', $translator->trans('message.record_deleted', [], 'worker'));
+                }
+                return $this->redirectToRoute(
+                    'worker_list_date_detail',
+                    [
+                        'id' => $record->getWorker()->getId(),
+                        'date' => $originalDate
+                            ->format($translator->trans('format.date_parameter', [], 'general'))
+                    ]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('message.save_error', [], 'worker'));
+            }
+        }
+        return $this->render('worker/record_form.html.twig', [
+            'record' => $record,
+            'form' => $form->createView()
         ]);
     }
 }

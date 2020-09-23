@@ -153,4 +153,15 @@ class RecordRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function delete(Record $record, bool $flush = true)
+    {
+        $em = $this->getEntityManager();
+
+        $em->remove($record);
+
+        if ($flush) {
+            $em->flush();
+        }
+    }
 }

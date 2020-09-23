@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    <h2>{{ record.worker.fullName }} - {{ record.inTimestamp|date('format.date'|trans({}, 'general')) }}</h2>
+    {% if record.inTimestamp|date('format.date'|trans({}, 'general')) == 'now'|date('format.date'|trans({}, 'general')) %}
+        <div class="alert alert-warning">{{ 'text.current_date_warning'|trans }}</div>
+    {% endif %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ m.start_button() }}
+            {{ m.link_button(path('worker_list_date_detail', {'id': record.worker.id, 'date': record.inTimestamp|date('format.date_parameter'|trans({}, 'general')) }), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+            {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
+            {{ m.submit_button('delete', 'trash', 'btn-danger', 'button.delete_record'|trans) }}
+        {{ m.end_button() }}
+    {{ form_end(form) }}
+{% endblock %}
