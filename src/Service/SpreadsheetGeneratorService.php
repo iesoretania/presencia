@@ -108,7 +108,7 @@ class SpreadsheetGeneratorService
         $first = true;
 
         while ($date <= $lastDate) {
-            $data = $this->recordRepository->findByDate($date);
+            $data = $this->recordRepository->findDataByDate($date);
 
             $timeString = $date->format('Y-m-d');
 

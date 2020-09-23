@@ -2,4 +2,5 @@ hint.close: Cerrar
 
 format.datetime: d/m/Y H:i
 format.date: d/m/Y
+format.date_parameter: Y-m-d
 format.time: H:i

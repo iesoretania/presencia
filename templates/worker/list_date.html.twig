@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'worker' %}
+
+{% block content %}
+    <h2>{{ worker.fullName }} - {{ date|date('format.date'|trans({}, 'general')) }}</h2>
+
+    <table class="table table-bordered table-striped table-hover table-sm w-50">
+        <thead>
+        <tr>
+            <th>{{ 'header.in'|trans }}</th>
+            <th>{{ 'header.out'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>
+                    {{ record.inTimestamp|date('format.time'|trans({}, 'general')) }}
+                </td>
+                <td>
+                    {% if record.outTimestamp %}
+                        {{ record.outTimestamp|date('format.time'|trans({}, 'general')) }}
+                    {% else %}
+                        {{ 'table.none'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">{{ 'table.no_records'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

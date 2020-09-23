@@ -5,6 +5,7 @@ namespace App\Repository\Presence;
 use App\Entity\Presence\Record;
 use App\Entity\Worker;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 class RecordRepository extends ServiceEntityRepository
@@ -43,8 +44,7 @@ class RecordRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-
-    public function findByDate(\DateTime $date)
+    public function findDataByDateQueryBuilder(\DateTime $date): QueryBuilder
     {
         $startDate = clone $date;
         $startDate->setTime(0, 0, 0, 0);
@@ -52,7 +52,7 @@ class RecordRepository extends ServiceEntityRepository
         $endDate = clone $startDate;
         $endDate->add(new \DateInterval('P1D'));
 
-        $result = $this->getEntityManager()->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('w')
             ->addSelect('r')
             ->from(Worker::class, 'w')
@@ -61,11 +61,34 @@ class RecordRepository extends ServiceEntityRepository
             ->setParameter('end_date', $endDate)
             ->orderBy('w.lastName')
             ->addOrderBy('w.firstName')
-            ->addOrderBy('r.inTimestamp')
+            ->addOrderBy('r.inTimestamp');
+    }
+
+    public function findDataByDate(\DateTime $date)
+    {
+        return $this->findDataByDateQueryBuilder($date)
             ->getQuery()
             ->getResult();
+    }
 
-        return $result;
+    public function findByDateAndWorker(\DateTime $date, Worker $worker)
+    {
+        $startDate = clone $date;
+        $startDate->setTime(0, 0, 0, 0);
+
+        $endDate = clone $startDate;
+        $endDate->add(new \DateInterval('P1D'));
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.inTimestamp < :end_date AND r.inTimestamp >= :start_date')
+            ->andWhere('r.worker = :worker')
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate)
+            ->setParameter('worker', $worker)
+            ->orderBy('r.inTimestamp')
+            ->addOrderBy('r.outTimestamp')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getRecordByWorkerAndInTimestamp(Worker $worker, \DateTime $timestamp): ?Record

@@ -25,6 +25,7 @@
                     {% if datum.firstName is defined and datum != old_worker %}
                         {% if old_worker is not null %}
                             {% if first %}<span class="text-muted">{{ 'table.none'|trans }}</span>{% endif %}
+                            <a href="{{ path('worker_list_date_detail', {'id': old_worker.id, 'date': date|date('format.date_parameter'|trans({}, 'general')) }) }}"><i class="fas fa-ellipsis-h"></i></a>
                             </td>
                         </tr>
                         {% endif %}
@@ -50,6 +51,7 @@
                 {% endfor %}
                 {% if old_worker is not null %}
                     {% if first %}<span class="text-muted">{{ 'table.none'|trans }}</span>{% endif %}
+                    <a href="{{ path('worker_list_date_detail', {'id': old_worker.id, 'date': date|date('format.date_parameter'|trans({}, 'general')) }) }}"><i class="fas fa-ellipsis-h"></i></a>
                     </td><tr>
                 {% endif %}
             </tbody>

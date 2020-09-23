@@ -12,6 +12,10 @@ title.access_code_delete: Eliminar código de acceso
 header.name: Nombre completo
 header.date: Presencia registrada el %date%
 
+header.in: Hora entrada
+header.out: Hora salida
+
+table.no_records: No hay registros ese día
 table.no_workers: No hay personal registrado
 table.none: Ninguna
 

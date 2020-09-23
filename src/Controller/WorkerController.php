@@ -35,6 +35,31 @@ class WorkerController extends AbstractController
     }
 
     /**
+     * @Route("/fecha/{id}/{date}", name="worker_list_date_detail",
+     *     requirements={"id":"\d+", "date":"\d{4}-\d{1,2}-\d{1,2}"})
+     */
+    public function workerListDateDetailAction(
+        RecordRepository $recordRepository,
+        Worker $worker,
+        string $date
+    ): Response
+    {
+        try {
+            $queryDate = new \DateTime($date);
+        } catch (\Exception $e) {
+            throw $this->createNotFoundException();
+        }
+
+        $records = $recordRepository->findByDateAndWorker($queryDate, $worker);
+
+        return $this->render('worker/list_date.html.twig', [
+            'records' => $records,
+            'worker' => $worker,
+            'date' => $queryDate
+        ]);
+    }
+
+    /**
      * @Route("/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
      */
     public function workerListDateAction(RecordRepository $recordRepository, $date = null): Response
@@ -45,7 +70,7 @@ class WorkerController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $data = $recordRepository->findByDate($queryDate);
+        $data = $recordRepository->findDataByDate($queryDate);
 
         return $this->render('worker/list.html.twig', [
             'data' => $data,
