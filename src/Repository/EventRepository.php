@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use App\Entity\Worker;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 class EventRepository extends ServiceEntityRepository
@@ -67,12 +68,12 @@ class EventRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function listWorkersWithLastEventByData(array $data)
+    public function listWorkersWithLastEventByDataQueryBuilder(array $data): QueryBuilder
     {
         $today = new \DateTime();
         $today->setTime(0, 0, 0, 0);
 
-        $result = $this->getEntityManager()->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->addSelect('w')
             ->addSelect('e1')
             ->from(Worker::class, 'w')
@@ -93,7 +94,23 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('today', $today)
             ->setParameter('data', $data)
             ->orderBy('w.lastName', 'ASC')
-            ->addOrderBy('w.firstName', 'ASC')
+            ->addOrderBy('w.firstName', 'ASC');
+    }
+
+    public function listWorkersWithLastEventByData(array $data)
+    {
+        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data)
+            ->getQuery()
+            ->getResult();
+
+        return array_chunk($result, 2);
+    }
+
+    public function listWorkersWithLastEventByDataAndTags(array $data, array $tagsCollection)
+    {
+        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data)
+            ->andWhere(':tags_collection MEMBER OF w.tags')
+            ->setParameter('tags_collection', $tagsCollection)
             ->getQuery()
             ->getResult();
 
