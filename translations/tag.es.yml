@@ -1,0 +1,25 @@
+title: Listado de etiquetas
+title.form: Modificar etiqueta
+title.new: Nueva etiqueta
+title.delete: Eliminar etiqueta
+
+header.name: Etiqueta
+
+form.name: Descripción
+
+button.new: Registrar nueva etiqueta
+button.back: Volver al listado de etiquetas sin guardar
+button.submit: Guardar cambios
+button.delete: Eliminar etiqueta
+button.delete_confirm: Confirmar eliminación de etiqueta
+button.back_to_form: Volver a la etiqueta
+
+text.no_tags: No hay etiquetas
+
+message.saved: 'Cambios guardados con éxito'
+message.save_error: 'Ha ocurrido un error al guardar los cambios'
+
+message.deleted: 'Etiqueta eliminada con éxito'
+message.delete_error: 'No se ha podido eliminar la etiqueta'
+
+text.delete_warning: '¿Está seguro de que desea eliminar la etiqueta "%tag%"? Esta operación no se puede deshacer.'

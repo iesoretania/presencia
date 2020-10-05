@@ -19,6 +19,9 @@ menu.tooltip.current_state: 'Estado actual de presencia de los empleados'
 menu.name.workers: 'Personal'
 menu.tooltip.workers: 'Gestión del personal del centro'
 
+menu.name.tags: 'Etiquetas'
+menu.tooltip.tags: 'Gestión de las etiquetas de personal'
+
 menu.name.users: 'Usuarios'
 menu.tooltip.users: 'Gestión de usuarios de la aplicación'
 

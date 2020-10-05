@@ -18,7 +18,7 @@ button.back: Volver al listado de usuarios sin guardar
 button.submit: Guardar cambios
 button.delete: Eliminar usuario
 button.delete_confirm: Confirmar eliminación del usuario
-button.back_to_user: Volver al usuario
+button.back_to_form: Volver al usuario
 
 text.no_users: No hay usuarios registrados
 

@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'tag' %}
+
+{% block content %}
+    <div class="form-group">
+        <h2>
+            {{ 'title'|trans }}
+        </h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered table-sm w-50" id="workers">
+            <thead>
+            <tr>
+                <th>{{ 'header.name'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tag in tags %}
+                {% set url = path('tag_form', {'id': tag.id}) %}
+                <tr>
+                    <td><a href="{{ url }}">{{ tag.name }}</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">{{ 'text.no_tags'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ m.link_button(path('tag_new'), 'plus', 'btn-success', 'button.new'|trans) }}
+{% endblock %}

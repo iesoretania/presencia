@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% import 'macros.html.twig' as m %}
+{% trans_default_domain 'tag' %}
+
+{% block content %}
+    <h2>{{ (tag.id ? 'title.form' : 'title.new')|trans }}</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ m.start_button() }}
+            {{ m.link_button(path('tag'), 'arrow-left', 'btn-info', 'button.back'|trans) }}
+            {{ m.submit_button('save', 'check', 'btn-success', 'button.submit'|trans) }}
+            {% if tag.id %}{{ m.link_button(path('tag_delete', {'id': tag.id}), 'trash', 'btn-danger', 'button.delete'|trans) }}{% endif %}
+        {{ m.end_button() }}
+    {{ form_end(form) }}
+{% endblock %}

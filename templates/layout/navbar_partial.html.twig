@@ -15,6 +15,7 @@
             {{ ml.navbar_item('current_state', 'eye', 'current_state') }}
             {% if is_granted("ROLE_MANAGER") %}
             {{ ml.navbar_item('workers', 'users', 'worker') }}
+            {{ ml.navbar_item('tags', 'tag', 'tag') }}
             {{ ml.navbar_item('users', 'user-cog', 'user') }}
             {{ ml.navbar_item('schedule', 'business-time', null, true) }}
             {{ ml.navbar_item('events', 'calendar-check', null, true) }}
