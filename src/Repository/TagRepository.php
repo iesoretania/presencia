@@ -38,10 +38,15 @@ class TagRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findAllSorted()
+    public function findAllSortedQueryBuilder()
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.name')
+            ->orderBy('t.name');
+    }
+
+    public function findAllSorted()
+    {
+        return $this->findAllSortedQueryBuilder()
             ->getQuery()
             ->getResult();
     }

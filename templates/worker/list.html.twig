@@ -33,7 +33,12 @@
                         {% set url = path('worker_form', {'id': datum.id}) %}
                         {% set first = true %}
                         <tr>
-                            <td><a href="{{ url }}">{{ datum.lastName }}, {{ datum.firstName }}</a></td>
+                            <td>
+                                <a href="{{ url }}">{{ datum.lastName }}, {{ datum.firstName }}</a>
+                                {% for tag in datum.tags %}
+                                    <span class="badge badge-info">{{ tag.name }}</span>
+                                {% endfor %}
+                            </td>
                             <td>
                     {% else %}
                             {% if datum %}
