@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +26,17 @@ class Tag
      * @ORM\Column(type="string")
      * @var string
      */
-    private $name;
+    private $name = '';
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Worker", mappedBy="tags")
+     */
+    private $workers;
+
+    public function __construct()
+    {
+        $this->workers = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -37,7 +49,7 @@ class Tag
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -49,6 +61,24 @@ class Tag
     public function setName(string $name): Tag
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getWorkers(): Collection
+    {
+        return $this->workers;
+    }
+
+    /**
+     * @param ArrayCollection $workers
+     * @return Tag
+     */
+    public function setWorkers(ArrayCollection $workers): Tag
+    {
+        $this->workers = $workers;
         return $this;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,9 +44,15 @@ class Worker
      */
     private $enabled = true;
 
-    public function getFullName()
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="workers")
+     * @ORM\OrderBy({"name":"ASC"})
+     */
+    private $tags;
+
+    public function __construct()
     {
-        return $this->firstName . ' ' . $this->lastName;
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -53,6 +61,11 @@ class Worker
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFullName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     /**
@@ -124,6 +137,24 @@ class Worker
     public function setEnabled(bool $enabled): Worker
     {
         $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param ArrayCollection $tags
+     * @return Worker
+     */
+    public function setTags(ArrayCollection $tags): Worker
+    {
+        $this->tags = $tags;
         return $this;
     }
 }

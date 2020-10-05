@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Tag;
 use App\Entity\Worker;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +23,14 @@ class WorkerEditType extends AbstractType
             ])
             ->add('internalCode', TextType::class, [
                 'label' => 'form.internal_code',
+                'required' => false
+            ])
+            ->add('tags', EntityType::class, [
+                'label' => 'form.tags',
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
                 'required' => false
             ]);
     }

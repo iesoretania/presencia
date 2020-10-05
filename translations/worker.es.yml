@@ -33,6 +33,7 @@ button.worker_import: Importar personal desde Séneca
 form.first_name: Nombre
 form.last_name: Apellidos
 form.internal_code: Usuario IdEA
+form.tags: Etiquetas
 form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 
 form.csv: Fichero .csv de personal
