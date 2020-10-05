@@ -61,6 +61,11 @@ class AccessController extends AbstractController
                     $data['worker']->getFirstName() . ' ' . $data['worker']->getLastName()
                 );
             }
+
+            if (isset($data['last_event'])) {
+                $result['last_event'] = $data['last_event'];
+            }
+
             return new JsonResponse($result);
         }
 

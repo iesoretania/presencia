@@ -8,6 +8,13 @@
             {{ 'title'|trans }}
             <label for="date-picker"></label><input type="date" id="date-picker" value="{{ date.format('Y-m-d') }}" data-url="{{ path('worker_list_date') }}">
         </h2>
+        {% for tag in all_tags %}
+        {% set active = tag in active_tags %}
+            <div class="custom-control custom-switch custom-control-inline">
+                <input type="checkbox" class="custom-control-input" name="filter[]" value="{{ tag.id }}" id="tag{{ tag.id }}" {% if active %}checked{% endif %}>
+                <label class="custom-control-label" for="tag{{ tag.id }}">{{ tag.name }}</label>
+            </div>
+        {% endfor %}
     </div>
 
     <div class="table-responsive">
@@ -72,20 +79,33 @@
     <script>
         var workers = document.getElementById("workers");
         var datePicker = document.getElementById("date-picker");
+        var tags = document.getElementsByName("filter[]");
 
-        function refreshList(e) {
+        function refreshList() {
             function reqListener () {
                 var parser = new DOMParser();
                 var responseDoc = parser.parseFromString (this.responseText, "text/html");
                 workers.innerHTML = responseDoc.getElementById("workers").innerHTML;
             }
 
+            var selectedTags = '';
+            var checkboxes = document.querySelectorAll('input[name="filter[]"]:checked');
+
+            checkboxes.forEach(function(e) {
+                if (selectedTags !== '') {
+                    selectedTags = selectedTags + ',' + e.value;
+                } else {
+                    selectedTags = e.value;
+                }
+            });
+
             var oReq = new XMLHttpRequest();
             oReq.addEventListener("load", reqListener);
-            oReq.open("GET", datePicker.getAttribute('data-url') + '/' + e.target.value);
+            oReq.open("GET", datePicker.getAttribute('data-url') + '/' + datePicker.value + '/' + selectedTags);
             oReq.send();
         }
 
         datePicker.addEventListener('change', refreshList);
+        tags.forEach(function (e) { e.addEventListener('change', refreshList) });
     </script>
 {% endblock %}

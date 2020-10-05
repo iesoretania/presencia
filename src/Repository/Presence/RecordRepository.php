@@ -71,6 +71,15 @@ class RecordRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findDataByDateAndTags(\DateTime $date, $tagsCollection)
+    {
+        return $this->findDataByDateQueryBuilder($date)
+            ->andWhere(':tags_collection MEMBER OF w.tags')
+            ->setParameter('tags_collection', $tagsCollection)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findByDateAndWorker(\DateTime $date, Worker $worker)
     {
         $startDate = clone $date;

@@ -14,7 +14,14 @@
             {% if flashMessage.result == 'ignore' %}
                 <div class="alert alert-warning alert-dismissable auto-dismiss" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'hint.close'|trans({}, 'layout') }}"><span aria-hidden="true">&times;</span></button>
-                    {{ 'alert.ignore'|trans }}
+                    {% if flashMessage.last_event|default('') == 'in' %}
+                        {{ 'alert.ignore_in'|trans }}
+                    {% elseif  flashMessage.last_event|default('') == 'out' %}
+                        {{ 'alert.ignore_out'|trans }}
+                    {% else %}
+                        {{ 'alert.ignore'|trans }}
+                    {% endif %}
+
                 </div>
             {% endif %}
             {% if flashMessage.result == 'in' %}

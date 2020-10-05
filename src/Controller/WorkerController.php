@@ -13,6 +13,7 @@ use App\Form\Model\FileImport;
 use App\Form\WorkerEditType;
 use App\Repository\Presence\AccessCodeRepository;
 use App\Repository\Presence\RecordRepository;
+use App\Repository\TagRepository;
 use App\Repository\WorkerRepository;
 use App\Service\ImportService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -31,9 +32,9 @@ class WorkerController extends AbstractController
     /**
      * @Route("/", name="worker")
      */
-    public function workerListAction(RecordRepository $recordRepository): Response
+    public function workerListAction(RecordRepository $recordRepository, TagRepository $tagRepository): Response
     {
-        return $this->workerListDateAction($recordRepository, 'now');
+        return $this->workerListDateAction($recordRepository, $tagRepository, 'now');
     }
 
     /**
@@ -62,9 +63,14 @@ class WorkerController extends AbstractController
     }
 
     /**
-     * @Route("/fecha/{date}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
+     * @Route("/fecha/{date}/{tags}", name="worker_list_date", requirements={"date":"\d{4}-\d{1,2}-\d{1,2}"})
      */
-    public function workerListDateAction(RecordRepository $recordRepository, $date = null): Response
+    public function workerListDateAction(
+        RecordRepository $recordRepository,
+        TagRepository $tagRepository,
+        $date = null,
+        $tags = null
+    ): Response
     {
         try {
             $queryDate = new \DateTime($date);
@@ -72,11 +78,24 @@ class WorkerController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $data = $recordRepository->findDataByDate($queryDate);
+        $tagsCollection = [];
+        if (null === $tags) {
+            $data = $recordRepository->findDataByDate($queryDate);
+        } else {
+            $tagIdsCollection = explode(',', $tags);
+            if (is_array($tagIdsCollection)) {
+                $tagsCollection = $tagRepository->findByIds($tagIdsCollection);
+                $data = $recordRepository->findDataByDateAndTags($queryDate, $tagsCollection);
+            } else {
+                $data = [];
+            }
+        }
 
         return $this->render('worker/list.html.twig', [
             'data' => $data,
-            'date' => $queryDate
+            'date' => $queryDate,
+            'all_tags' => $tagRepository->findAllSorted(),
+            'active_tags' => $tagsCollection
         ]);
     }
 

@@ -55,7 +55,8 @@ class ProcessManualCodeService
             // si ha transcurrido menos de 5 minutos desde el último evento, ignorar
             if (($timestamp->getTimestamp() - $lastEvent->getTimestamp()->getTimestamp()) < $this->minWaitTime) {
                 return [
-                    'result' => 'ignore'
+                    'result' => 'ignore',
+                    'last_event' => $lastEvent->getData()
                 ];
             }
 

@@ -2,5 +2,7 @@ form.submit_code: Enviar código
 
 alert.not_found: ¡Código no encontrado!
 alert.ignore: Código usado recientemente. Inténtelo de nuevo más tarde
+alert.ignore_in: Entrada ya registrada previamente
+alert.ignore_out: Salida ya registrada previamente
 alert.in: Registrada entrada de %worker%
 alert.out: Registrada salida de %worker%
