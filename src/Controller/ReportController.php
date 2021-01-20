@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @IsGranted("ROLE_MANAGER")
+ * @IsGranted("ROLE_REPORTER")
  * @Route("/informe")
  */
 class ReportController extends AbstractController
