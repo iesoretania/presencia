@@ -33,13 +33,18 @@ class ImportService
         $records = $reader->getRecords();
         $worker = null;
 
+        // llevar la cuenta de los recién generados
+        $generated = [];
+
         foreach ($records as $offset => $record) {
             $idEA = $record['Usuario IdEA'];
             $workerName = iconv('ISO-8859-1', 'UTF-8', $record['Empleado/a']);
 
             $worker = $this->workerRepository->findOneByInternalCode($idEA);
 
-            if (null === $worker) {
+            // si no existía previamente a la importación y no ha sido importado
+            // en este fichero, añadir el trabajador
+            if (null === $worker && !isset($generated[$idEA])) {
                 $fullName = explode(', ', $workerName);
                 $worker = $this->workerRepository->findOneByFirstAndLastName($fullName[1], $fullName[0]);
 
@@ -52,9 +57,12 @@ class ImportService
                     if ($idEA) {
                         $worker->setInternalCode($record['Usuario IdEA']);
                     }
-                    
+
                     $this->workerRepository->persist($worker);
                 }
+
+                // indicar que esta persona ya ha sido generada
+                $generated[$idEA] = $worker;
             }
         }
 
