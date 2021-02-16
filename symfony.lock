@@ -96,6 +96,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
@@ -112,6 +115,9 @@
             "config/packages/test/hautelook_alice.yaml",
             "fixtures/.gitignore"
         ]
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "league/csv": {
         "version": "9.5.0"
@@ -305,6 +311,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.3.1"
     },
     "symfony/http-foundation": {
         "version": "v4.4.11"
