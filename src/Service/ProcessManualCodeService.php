@@ -40,6 +40,12 @@ class ProcessManualCodeService
         }
 
         $worker = $accessCode->getWorker();
+
+        if (false === $worker->isEnabled()) {
+            return [
+                'result' => 'not_found'
+            ];
+        }
         $lastEvent = $this->eventRepository->findLastByWorkerAndData(
             $worker,
             ['in', 'out']

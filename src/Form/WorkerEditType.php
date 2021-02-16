@@ -7,6 +7,7 @@ use App\Entity\Worker;
 use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +26,15 @@ class WorkerEditType extends AbstractType
             ->add('internalCode', TextType::class, [
                 'label' => 'form.internal_code',
                 'required' => false
+            ])
+            ->add('enabled', ChoiceType::class, [
+                'label' => 'form.enabled',
+                'choices' => [
+                    'form.enabled.false' => false,
+                    'form.enabled.true' => true
+                ],
+                'expanded' => true,
+                'required' => true
             ])
             ->add('tags', EntityType::class, [
                 'label' => 'form.tags',

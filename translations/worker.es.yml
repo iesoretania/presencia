@@ -33,6 +33,9 @@ button.worker_import: Importar personal desde Séneca
 form.first_name: Nombre
 form.last_name: Apellidos
 form.internal_code: Usuario IdEA
+form.enabled: Estado
+form.enabled.false: El usuario no aparece en las listas ni puede registrar presencia
+form.enabled.true: El usuario aparece en las listas y puede registrar presencia
 form.tags: Etiquetas
 form.select_file_placeholder: Seleccione el fichero descargado desde Séneca
 

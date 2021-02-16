@@ -68,12 +68,12 @@ class EventRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function listWorkersWithLastEventByDataQueryBuilder(array $data): QueryBuilder
+    public function listWorkersWithLastEventByDataQueryBuilder(array $data, bool $filtered = false): QueryBuilder
     {
         $today = new \DateTime();
         $today->setTime(0, 0, 0, 0);
 
-        return $this->getEntityManager()->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->addSelect('w')
             ->addSelect('e1')
             ->from(Worker::class, 'w')
@@ -95,20 +95,26 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('data', $data)
             ->orderBy('w.lastName', 'ASC')
             ->addOrderBy('w.firstName', 'ASC');
+
+        if ($filtered) {
+            $qb->andWhere('w.enabled = true');
+        }
+
+        return $qb;
     }
 
-    public function listWorkersWithLastEventByData(array $data)
+    public function listWorkersWithLastEventByData(array $data, bool $filtered = false)
     {
-        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data)
+        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data, $filtered)
             ->getQuery()
             ->getResult();
 
         return array_chunk($result, 2);
     }
 
-    public function listWorkersWithLastEventByDataAndTags(array $data, array $tagsCollection)
+    public function listWorkersWithLastEventByDataAndTags(array $data, array $tagsCollection, bool $filtered = false)
     {
-        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data)
+        $result = $this->listWorkersWithLastEventByDataQueryBuilder($data, $filtered)
             ->andWhere(':tags_collection MEMBER OF w.tags')
             ->setParameter('tags_collection', $tagsCollection)
             ->getQuery()

@@ -42,6 +42,7 @@
                         <tr>
                             <td>
                                 <a href="{{ url }}">{{ datum.lastName }}, {{ datum.firstName }}</a>
+                                {% if not datum.enabled %}<i class="fa fa-eye-slash"></i>{% endif %}
                                 {% for tag in datum.tags %}
                                     <span class="badge badge-info">{{ tag.name }}</span>
                                 {% endfor %}

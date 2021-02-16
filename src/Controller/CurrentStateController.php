@@ -22,12 +22,12 @@ class CurrentStateController extends AbstractController
         }
         $tagsCollection = [];
         if (null === $tags) {
-            $data = $eventRepository->listWorkersWithLastEventByData(['in', 'out']);
+            $data = $eventRepository->listWorkersWithLastEventByData(['in', 'out'], true);
         } else {
             $tagIdsCollection = explode(',', $tags);
             if (is_array($tagIdsCollection)) {
                 $tagsCollection = $tagRepository->findByIds($tagIdsCollection);
-                $data = $eventRepository->listWorkersWithLastEventByDataAndTags(['in', 'out'], $tagsCollection);
+                $data = $eventRepository->listWorkersWithLastEventByDataAndTags(['in', 'out'], $tagsCollection, true);
             } else {
                 $data = [];
             }
